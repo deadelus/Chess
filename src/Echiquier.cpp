@@ -2,15 +2,17 @@
 #include "Echiquier.h"
 #include "Piece.h"
 
+using namespace std;
+
 Echiquier::Echiquier()
 {
-    cout << "Creation de l'échiquier!" << endl;
+    cout << "Creation de l'echiquier!" << endl;
     //ctor
 }
 
 Echiquier::~Echiquier()
 {
-    cout << "Destruction de l'échiquier!" << endl;
+    cout << "Destruction de l'echiquier!" << endl;
     //dtor
 }
 
@@ -20,11 +22,20 @@ void Echiquier::placerPiece(Piece &p){
     int y = Piece->getY();
     if(x>=1&&x<=8){
         if(y>=1&&y<=8){
-            if(echiquier[x-1][y-1] == NULL){
+            if(echiquier[x-1][y-1] == nullptr){
                 echiquier[x-1][y-1] = Piece;
             }
         }
     }
+}
+
+void Echiquier::deplacerPiece(Piece &p, int oldX, int oldY){
+    Piece *Piece = &p;
+    int x = Piece->getX();
+    int y = Piece->getY();
+
+    echiquier[oldX-1][oldY-1] = nullptr;
+    echiquier[x-1][y-1] = Piece;
 }
 
 void Echiquier::delPiece(Piece &p){
@@ -51,11 +62,11 @@ bool Echiquier::coordIsValid(int x, int y){
     return isValid;
 }
 
-bool Echiquier::coordIsFree(int x, int y){
+bool Echiquier::coordIsNotFree(int x, int y){
     bool isFree = false;
     if(x>=1&&x<=8){
         if(y>=1&&y<=8){
-            if(echiquier[x-1][y-1] == NULL){
+            if(echiquier[x-1][y-1] == nullptr){
                 isFree = true;
             }
         }
@@ -87,4 +98,22 @@ Piece* Echiquier::getPiece(int x, int y){
 }
 
 void Echiquier::toString(){
+    /*
+    for(int x = 0; x<8; x++){
+        for(int y = 0; y<8; y++){
+            if(this->coordIsNotFree(x,y)){
+               if((x+y)%2==0){
+                cout << " # ";
+               }
+               else{
+                cout << "   ";
+               }
+            }
+            else{
+                echiquier[x][y]->myCode();
+            }
+        }
+        cout << " " << endl;
+    }
+    */
 }

@@ -12,9 +12,8 @@ class Joueur
     public:
         Joueur();
         virtual ~Joueur();
-        vector<Piece*> getPieces();
+        virtual vector<Piece*> getPieces();
         string getNom();
-        void setPieces();
         void setPieces(const vector<Piece*> &lesPieces);
         bool getColor();
         void toString();

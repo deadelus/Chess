@@ -16,8 +16,8 @@ class Piece
         bool getColor();
         void setColor(bool color);
 
-        bool kill(Piece &autre);
-        void toMove(int x, int y);
+        void kill(Echiquier *Echiquier, Piece &autre);
+        void toMove(Echiquier *Echiquier, int x, int y);
 
         virtual bool toMoveIsValid(Echiquier *Echiquier, int x, int y);
         virtual std::string myCode();
@@ -71,7 +71,7 @@ class Cavalier : virtual public Piece{
 
 class Pion : virtual public Piece{
     public:
-        Pion(bool color);
+        Pion(bool color, int x);
         bool toMoveIsValid(Echiquier *Echiquier, int x, int y);
         std::string myCode();
         void toString();

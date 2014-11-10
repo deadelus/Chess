@@ -12,12 +12,13 @@ class Echiquier
         Echiquier();
         virtual ~Echiquier();
         void placerPiece(Piece &p);
+        void deplacerPiece(Piece &p, int oldX, int oldY);
 
         void addPiece(Piece &p);//AJOUTE UNE PIECE SUR L'ECHIQUIER
         void delPiece(Piece &p);//ENLEVE UNE PIECE DE L'ECHIQUIER
 
         bool coordIsValid(int x, int y);
-        bool coordIsFree(int x, int y);
+        bool coordIsNotFree(int x, int y);
         bool comparerPiece(Piece *p, int x, int y);
         Piece* getPiece(int x, int y);
         void toString();
