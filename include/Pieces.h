@@ -1,8 +1,7 @@
 #ifndef PIECE_H
 #define PIECE_H
-#include <string>
-#include "Echiquier.h"
 
+class Echiquier;
 class Piece
 {
     public:
@@ -16,11 +15,10 @@ class Piece
         bool getColor();
         void setColor(bool color);
 
-        void kill(Echiquier *Echiquier, Piece &autre);
-        void toMove(Echiquier *Echiquier, int x, int y);
+        void toMove(int x, int y);
+        virtual bool toMoveIsValid(int x, int y);
 
-        virtual bool toMoveIsValid(Echiquier *Echiquier, int x, int y);
-        virtual std::string myCode();
+        virtual char myCode();
         virtual void toString();
     protected:
         bool Color;// Noir = 0, Blanc = 1
@@ -32,48 +30,48 @@ class Piece
 class Roi : public Piece{
     public:
         Roi(bool color);
-        bool toMoveIsValid(Echiquier *Echiquier, int x, int y);
-        std::string myCode();
+        bool toMoveIsValid(int x, int y);
+        char myCode();
         void toString();
 };
 
 class Fou : virtual public Piece{
     public:
         Fou(bool color, bool position);
-        bool toMoveIsValid(Echiquier *Echiquier, int x, int y);
-        std::string myCode();
+        bool toMoveIsValid(int x, int y);
+        char myCode();
         void toString();
 };
 
 class Tour : virtual public Piece{
     public:
         Tour(bool color, bool position);
-        bool toMoveIsValid(Echiquier *Echiquier, int x, int y);
-        std::string myCode();
+        bool toMoveIsValid(int x, int y);
+        char myCode();
         void toString();
 };
 
 class Reine : public Tour, public Fou{
     public:
         Reine(bool color);
-        bool toMoveIsValid(Echiquier *Echiquier, int x, int y);
-        std::string myCode();
+        bool toMoveIsValid(int x, int y);
+        char myCode();
         void toString();
 };
 
 class Cavalier : virtual public Piece{
     public:
         Cavalier(bool color, bool position);
-        bool toMoveIsValid(Echiquier *Echiquier, int x, int y);
-        std::string myCode();
+        bool toMoveIsValid(int x, int y);
+        char myCode();
         void toString();
 };
 
 class Pion : virtual public Piece{
     public:
         Pion(bool color, int x);
-        bool toMoveIsValid(Echiquier *Echiquier, int x, int y);
-        std::string myCode();
+        bool toMoveIsValid(int x, int y);
+        char myCode();
         void toString();
 };
 

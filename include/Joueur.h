@@ -1,9 +1,8 @@
 #ifndef JOUEUR_H
 #define JOUEUR_H
-#include "Piece.h"
 #include <string>
 #include <vector>
-
+#include "Pieces.h"
 
 using namespace std;
 
@@ -11,10 +10,11 @@ class Joueur
 {
     public:
         Joueur();
+        Joueur(bool color);
         virtual ~Joueur();
-        virtual vector<Piece*> getPieces();
+        vector<Piece*> getPieces();
         string getNom();
-        void setPieces(const vector<Piece*> &lesPieces);
+        void setPieces(vector<Piece*> vp);
         bool getColor();
         void toString();
     protected:

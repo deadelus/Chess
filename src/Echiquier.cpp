@@ -1,12 +1,13 @@
 #include <iostream>
 #include "Echiquier.h"
-#include "Piece.h"
+
 
 using namespace std;
 
 Echiquier::Echiquier()
 {
     cout << "Creation de l'echiquier!" << endl;
+
     //ctor
 }
 
@@ -16,37 +17,36 @@ Echiquier::~Echiquier()
     //dtor
 }
 
-void Echiquier::placerPiece(Piece &p){
-    Piece *Piece = &p;
-    int x = Piece->getX();
-    int y = Piece->getY();
+void Echiquier::placerPiece(Piece *p){
+
+    int x = p->getX();
+    int y = p->getY();
+
     if(x>=1&&x<=8){
         if(y>=1&&y<=8){
             if(echiquier[x-1][y-1] == nullptr){
-                echiquier[x-1][y-1] = Piece;
+                echiquier[x-1][y-1] = p;
             }
         }
     }
 }
 
-void Echiquier::deplacerPiece(Piece &p, int oldX, int oldY){
-    Piece *Piece = &p;
-    int x = Piece->getX();
-    int y = Piece->getY();
+void Echiquier::deplacerPiece(Piece *p, int oldX, int oldY){
+    int x = p->getX();
+    int y = p->getY();
 
     echiquier[oldX-1][oldY-1] = nullptr;
-    echiquier[x-1][y-1] = Piece;
+    echiquier[x-1][y-1] = p;
 }
 
-void Echiquier::delPiece(Piece &p){
-    Piece *Piece = &p;
-    int x = Piece->getX();
-    int y = Piece->getY();
+void Echiquier::delPiece(Piece *p){
+    int x = p->getX();
+    int y = p->getY();
     if(x>=1&&x<=8){
         if(y>=1&&y<=8){
-            if(echiquier[x-1][y-1] == Piece){
-                echiquier[x-1][y-1] = NULL;
-                delete Piece;
+            if(echiquier[x-1][y-1] == p){
+                echiquier[x-1][y-1] = nullptr;
+                delete p;
             }
         }
     }
@@ -74,21 +74,21 @@ bool Echiquier::coordIsNotFree(int x, int y){
     return isFree;
 }
 
-bool Echiquier::comparerPiece(Piece *p, int x, int y){
+bool Echiquier::comparerPiece(Piece &p, int x, int y){
     bool isDiferent;
-    Piece *autre = this->getPiece(x, y);
+    Piece *P = this->getPiece(x, y);
 
-    if(p != autre){
-        if(p->getColor() != autre->getColor()){
-            isDiferent = true;
-        }
+
+    if(p.getColor() != P->getColor()){
+        isDiferent = true;
     }
+
 
     return isDiferent;
 }
 
 Piece* Echiquier::getPiece(int x, int y){
-    Piece *p = nullptr;
+    Piece *p;
     if(x>=1&&x<=8){
         if(y>=1&&y<=8){
             p = echiquier[x-1][y-1];
@@ -98,7 +98,6 @@ Piece* Echiquier::getPiece(int x, int y){
 }
 
 void Echiquier::toString(){
-    /*
     for(int x = 0; x<8; x++){
         for(int y = 0; y<8; y++){
             if(this->coordIsNotFree(x,y)){
@@ -115,5 +114,4 @@ void Echiquier::toString(){
         }
         cout << " " << endl;
     }
-    */
 }

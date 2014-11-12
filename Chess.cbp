@@ -36,13 +36,11 @@
 		</Compiler>
 		<Unit filename="include/Echiquier.h" />
 		<Unit filename="include/Joueur.h" />
-		<Unit filename="include/Partie.h" />
-		<Unit filename="include/Piece.h" />
+		<Unit filename="include/Pieces.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Echiquier.cpp" />
 		<Unit filename="src/Joueur.cpp" />
-		<Unit filename="src/Partie.cpp" />
-		<Unit filename="src/Piece.cpp" />
+		<Unit filename="src/Pieces.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

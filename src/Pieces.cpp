@@ -1,6 +1,5 @@
 #include <iostream>
-#include <string>
-#include "Piece.h"
+#include "Pieces.h"
 #define BLANC true
 #define NOIR false
 
@@ -22,7 +21,7 @@ Piece::Piece(int x, int y, bool color)
 Piece::~Piece()
 {
     //dtor
-    //cout << "Destruction Piece" << endl;
+    cout << "Destruction Piece" << endl;
 }
 //METHODES GENERALES
 int Piece::getX(){
@@ -49,38 +48,17 @@ void Piece::setColor(bool color){
     Color=color;
 }
 
-void Piece::kill(Echiquier *Echiquier, Piece &autre){
-    Piece *PieceADetruire(&autre);
-    Echiquier->delPiece(*PieceADetruire);
-}
-
-void Piece::toMove(Echiquier *Echiquier, int x, int y){
-    int oldX = this->getX();
-    int oldY = this->getY();
-    this->setX(x);
-    this->setY(y);
-
-    Piece *autre = Echiquier->getPiece(x,y);
-
-    Piece::kill(Echiquier, *autre);
-    Echiquier->deplacerPiece(*this, oldX, oldY);
-}
-
 //PIECE
-bool Piece::toMoveIsValid(Echiquier *Echiquier, int x, int y){
+bool Piece::toMoveIsValid(int x, int y){
     bool isValid = false;
-    if(Echiquier->coordIsValid(x,y)){
-        if(Echiquier->coordIsNotFree(x,y)){
-            if(!Echiquier->comparerPiece(this, x, y)){
-                isValid = true;
-            }
-        }
+    if(x>0 && x<9 && y>0 && y<9){
+        return isValid;
     }
     return isValid;
 }
 
-string Piece::myCode(){
-    string code = "?";
+char Piece::myCode(){
+    char code = '?';
     return code;
 }
 void Piece::toString(){
@@ -88,7 +66,7 @@ void Piece::toString(){
 }
 
 //ROI
-bool Roi::toMoveIsValid(Echiquier *Echiquier, int x, int y){
+bool Roi::toMoveIsValid(int x, int y){
     bool isValid = false;
     int xOrigin = this->getX();
     int yOrigin = this->getY();
@@ -101,54 +79,54 @@ bool Roi::toMoveIsValid(Echiquier *Echiquier, int x, int y){
                 }
             }
         }
-       isValid = Piece::toMoveIsValid(Echiquier, x, y);
+       isValid = Piece::toMoveIsValid(x, y);
     }
     return isValid;
 }
 
-string Roi::myCode(){
-    string code;
+char Roi::myCode(){
+    char code;
     if(this->getColor() == BLANC){
-        code = "k";
+        code = 'k';
         return code;
     }
     else{
-        code = "K";
+        code = 'K';
         return code;
     }
 }
 
 void Roi::toString(){
-    cout << "Ceci est un Roi" << endl;
+    cout << "Ceci est un Roi en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 //REINE
-bool Reine::toMoveIsValid(Echiquier *Echiquier, int x, int y){
+bool Reine::toMoveIsValid(int x, int y){
     bool isValid = false;
-    isValid = Tour::toMoveIsValid(Echiquier, x, y);
-    isValid = Fou::toMoveIsValid(Echiquier, x, y);
+    isValid = Tour::toMoveIsValid(x, y);
+    isValid = Fou::toMoveIsValid(x, y);
 
     return isValid;
 }
 
-string Reine::myCode(){
-    string code;
+char Reine::myCode(){
+    char code;
     if(this->getColor() == BLANC){
-        code = "q";
+        code = 'q';
         return code;
     }
     else{
-        code = "Q";
+        code = 'Q';
         return code;
     }
 }
 
 void Reine::toString(){
-    cout << "Ceci est une Reine" << endl;
+    cout << "Ceci est une Reine en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 //FOU
-bool Fou::toMoveIsValid(Echiquier *Echiquier, int x, int y){
+bool Fou::toMoveIsValid(int x, int y){
     bool isValid = false;
     int xOrigin = this->getX();
     int yOrigin = this->getY();
@@ -170,31 +148,31 @@ bool Fou::toMoveIsValid(Echiquier *Echiquier, int x, int y){
                 isValid = true;
             }
         }
-       isValid = Piece::toMoveIsValid(Echiquier, x, y);
+       isValid = Piece::toMoveIsValid(x, y);
     }
 
     return isValid;
 }
 
-string Fou::myCode(){
-    string code;
+char Fou::myCode(){
+    char code;
     if(this->getColor() == BLANC){
-        code = "f";
+        code = 'f';
         return code;
     }
     else{
-        code = "F";
+        code = 'F';
         return code;
     }
 }
 
 void Fou::toString(){
-    cout << "Ceci est un Fou" << endl;
+    cout << "Ceci est un Fou en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 
 //CAVALIER
-bool Cavalier::toMoveIsValid(Echiquier *Echiquier, int x, int y){
+bool Cavalier::toMoveIsValid(int x, int y){
 bool isValid = false;
     int xOrigin = this->getX();
     int yOrigin = this->getY();
@@ -227,31 +205,31 @@ bool isValid = false;
             isValid = true;
         }
 
-       isValid = Piece::toMoveIsValid(Echiquier, x, y);
+       isValid = Piece::toMoveIsValid(x, y);
     }
 
     return isValid;
 }
 
-string Cavalier::myCode(){
-    string code;
+char Cavalier::myCode(){
+    char code;
     if(this->getColor() == BLANC){
-        code = "c";
+        code = 'c';
         return code;
     }
     else{
-        code = "C";
+        code = 'C';
         return code;
     }
 }
 
 void Cavalier::toString(){
-    cout << "Ceci est un Cavalier" << endl;
+    cout << "Ceci est un Cavalier en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 //TOUR
-bool Tour::toMoveIsValid(Echiquier *Echiquier, int x, int y){
-bool isValid = false;
+bool Tour::toMoveIsValid(int x, int y){
+    bool isValid = false;
     int xOrigin = this->getX();
     int yOrigin = this->getY();
     //On a besoin que du x car les diagonales representent une fonction linéaire tel que y = x,
@@ -273,78 +251,79 @@ bool isValid = false;
             }
         }
 
-       isValid = Piece::toMoveIsValid(Echiquier, x, y);
+       isValid = Piece::toMoveIsValid(x, y);
     }
 
     return isValid;
 }
-string Tour::myCode(){
-    string code;
+char Tour::myCode(){
+    char code;
     if(this->getColor() == BLANC){
-        code = "t";
+        code = 't';
         return code;
     }
     else{
-        code = "T";
+        code = 'T';
         return code;
     }
 }
 
 void Tour::toString(){
-    cout << "Ceci est une Tour" << endl;
+    cout << "Ceci est une Tour en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 //PION
-bool Pion::toMoveIsValid(Echiquier *Echiquier, int x, int y){
+bool Pion::toMoveIsValid(int x, int y){
     bool isValid = false;
     int xOrigin = this->getX();
     int yOrigin = this->getY();
 
     if((x == xOrigin+1 && y == yOrigin+1)||(x == xOrigin-1 && y == yOrigin+1)){
-       isValid = Piece::toMoveIsValid(Echiquier, x, y);
+        isValid = true;
+        isValid = Piece::toMoveIsValid(x, y);
     }
 
     return isValid;
 }
 
-string Pion::myCode(){
-    string code;
+char Pion::myCode(){
+    char code;
     if(this->getColor() == BLANC){
-        code = "x";
+        code = 'x';
         return code;
     }
     else{
-        code = "X";
+        code = 'X';
         return code;
     }
 }
 
 void Pion::toString(){
-    cout << "Ceci est un Pion" << endl;
+    cout << "Ceci est un Pion en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 //ctor
 
 Roi::Roi(bool color) : Piece(5,(color)?1:8,color){
-    //cout << "Constructeur Roi" << endl;
+    cout << "Constructeur Roi" << endl;
 }
 
 Reine::Reine(bool color) : Piece(4,(color)?1:8, color), Tour(color, true), Fou(color, true){
-    //cout << "Constructeur Reine" << endl;
+    cout << "Constructeur Reine" << endl;
 }
 
 Tour::Tour (bool color, bool position) : Piece((position)?1:8,(color)?1:8,color){
-    //cout << "Constructeur Tour" << endl;
+    cout << "Constructeur Tour" << endl;
 }
 
 Cavalier::Cavalier(bool color, bool position) : Piece((position)?2:7,(color)?1:8,color){
-    //cout << "Constructeur Cavalier" << endl;
+    cout << "Constructeur Cavalier" << endl;
 }
 
 Fou::Fou(bool color, bool position) : Piece((position)?3:6,(color)?1:8,color){
-    //cout << "Constructeur Fou" << endl;
+    cout << "Constructeur Fou" << endl;
 }
 
 Pion::Pion(bool color, int x) : Piece(x,(color)?2:7,color){
-    //cout << "Constructeur Pion" << endl;
+    cout << "Constructeur Pion" << endl;
 }
