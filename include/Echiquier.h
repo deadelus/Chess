@@ -2,8 +2,9 @@
 #define ECHIQUIER_H
 #include <vector>
 #include "Pieces.h"
+//#include <memory>
+//#include <array>
 
-using namespace std;
 
 class Echiquier
 {
@@ -23,7 +24,10 @@ class Echiquier
         void toString();
     protected:
     private:
-        Piece* echiquier[8][8];
+        //std::array<std::array<std::unique_ptr<Piece>,8>,8> echiquier;
+        //std::array<std::array<Piece*,8>,8> echiquier;
+        Piece *echiquier[8][8];
+
 };
 
 #endif // ECHIQUIER_H

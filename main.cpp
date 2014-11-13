@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Pieces.h"
 #include "Joueur.h"
+#include "Echiquier.h"
 #define BLANC true
 #define NOIR false
 #define DROITE true
@@ -32,18 +33,32 @@ int main()
 
     JoueurBlanc jb;
     JoueurNoir jn;
+    Echiquier e;
 
-    vector<Piece*> lesPieces = move(jb.getPieces());
+    vector<Piece*> lesPiecesBlanches = move(jb.getPieces());
+    vector<Piece*> lesPiecesNoires = move(jn.getPieces());
 
-    cout << lesPieces.size() <<endl;
+    //cout << lesPiecesBlanches.size() <<endl;
 
-    vector<Piece*>::iterator p = lesPieces.begin();
+    vector<Piece*>::iterator pb = lesPiecesBlanches.begin();
+    vector<Piece*>::iterator pn = lesPiecesNoires.begin();
 
-    while(p != lesPieces.end())
+
+    while(pb != lesPiecesBlanches.end())
     {
-        (*p)->toString();
-        p++;
+        e.placerPiece(*pb);
+        //(*p)->toString();
+        pb++;
     }
+
+    while(pn != lesPiecesNoires.end())
+    {
+        e.placerPiece(*pn);
+        //(*p)->toString();
+        pn++;
+    }
+
+    e.toString();
 
     return 0;
 }
