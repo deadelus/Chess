@@ -14,6 +14,7 @@ void newGame(Echiquier &e, JoueurBlanc &jb, JoueurNoir &jn);
 
 int main()
 {
+    recap();
     cout << "Jeu d'echec!" << endl;
 
     JoueurBlanc *jb = new JoueurBlanc();
@@ -63,7 +64,7 @@ int main()
 
         lesPieces.clear();
         saisiOk = false;
-        if(tour==4)
+        if(tour==10)
             gameOver = true;
         tour++;
     }
@@ -100,6 +101,7 @@ void newGame (Echiquier &e, JoueurBlanc &jb, JoueurNoir &jn){
 void recap(){
     /*
     RECAPITULATIF
+    */
 
     int i=10;
     int *pi(0);
@@ -112,5 +114,5 @@ void recap(){
     cout << "pi = " << pi << endl;
     cout << "*pi = " << *pi << endl;
     cout << "pi2 = " << pi2 << endl;
-*/
+
 }

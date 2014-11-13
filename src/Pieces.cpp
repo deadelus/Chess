@@ -77,8 +77,8 @@ bool Roi::toMoveIsValid(int x, int y){
     int yOrigin = this->getY();
 
     if(xOrigin != x && yOrigin != y){
-        for(int i = xOrigin; i <= xOrigin+1; i++){
-            for(int j = yOrigin; j <= yOrigin+1; j++){
+        for(int i = xOrigin-1; i <= xOrigin+1; i++){
+            for(int j = yOrigin-1; j <= yOrigin+1; j++){
                 if(i == x && j == y){
                     isValid = true;
                 }
@@ -184,6 +184,7 @@ bool isValid = false;
 
     //On a besoin que du x car les diagonales representent une fonction linéaire tel que y = x,
     if(xOrigin != x && yOrigin != y){
+        isValid = Piece::toMoveIsValid(x, y);
         // Calcul des lignes et colonnes
         if(x == xOrigin+1 && y == yOrigin+2){
             isValid = true;
@@ -209,8 +210,6 @@ bool isValid = false;
         if(x == xOrigin-2 && y == xOrigin-1){
             isValid = true;
         }
-
-       isValid = Piece::toMoveIsValid(x, y);
     }
 
     return isValid;
@@ -279,14 +278,14 @@ void Tour::toString(){
 
 //PION
 bool Pion::toMoveIsValid(int x, int y){
-    bool isValid = true;
+    bool isValid = false;
 
     int xOrigin = this->getX();
     int yOrigin = this->getY();
     bool color  = this->getColor();
 
-    cout << " Origine x " << xOrigin << " Des x " << x << endl;
-    cout << " Origine y " << yOrigin << " Des y " << y << endl;
+    //cout << " Origine x " << xOrigin << " Des x " << x << endl;
+    //cout << " Origine y " << yOrigin << " Des y " << y << endl;
 
     if((y == 4)
         &&(color==BLANC)

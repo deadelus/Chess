@@ -18,7 +18,7 @@ class Echiquier
         void delPiece(Piece *p);//ENLEVE UNE PIECE DE L'ECHIQUIER
 
         bool coordIsValid(int x, int y);
-        bool coordIsNotFree(int x, int y);
+        bool coordIsFree(int x, int y);
         bool comparerPiece(Piece &p, int x, int y);
         Piece* getPiece(int x, int y);
         void toString();

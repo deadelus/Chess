@@ -39,15 +39,31 @@ void Echiquier::placerPiece(Piece *p){
 }
 
 bool Echiquier::deplacerPiece(Piece *p, int x, int y){
-    bool isValid = p->toMoveIsValid(x,y);
-    cout << isValid << endl;
+    bool isValid = false;
+
+    isValid = p->toMoveIsValid(x,y);
 
     if(isValid){
+        cout << " Coordonee VALIDE ! " << endl;
         int oldX = p->getX();
         int oldY = p->getY();
-        echiquier[oldX-1][oldY-1] = NULL;
-        echiquier[x-1][y-1] = p;
-        p->toMove(x, y);
+
+
+        if(coordIsFree(x,y)){
+            echiquier[oldX-1][oldY-1] = NULL;
+            echiquier[x-1][y-1] = p;
+            p->toMove(x, y);
+            isValid = true;
+        }
+        else{
+            if(comparerPiece(*p,x,y)){
+                echiquier[oldX-1][oldY-1] = NULL;
+                delPiece(echiquier[x-1][y-1]);
+                echiquier[x-1][y-1] = p;
+                p->toMove(x, y);
+                isValid = true;
+            }
+        }
     }
 
     return isValid;
@@ -66,17 +82,7 @@ void Echiquier::delPiece(Piece *p){
     }
 }
 
-bool Echiquier::coordIsValid(int x, int y){
-    bool isValid = false;
-    if(x>=1&&x<=8){
-        if(y>=1&&y<=8){
-            isValid=true;
-        }
-    }
-    return isValid;
-}
-
-bool Echiquier::coordIsNotFree(int x, int y){
+bool Echiquier::coordIsFree(int x, int y){
     bool isFree = false;
     if(x>=1&&x<=8){
         if(y>=1&&y<=8){
@@ -89,14 +95,15 @@ bool Echiquier::coordIsNotFree(int x, int y){
 }
 
 bool Echiquier::comparerPiece(Piece &p, int x, int y){
-    bool isDiferent;
-    Piece *P = this->getPiece(x, y);
+    bool isDiferent = false;
+    Piece *P(0);
+    P = this->getPiece(x, y);
 
-
-    if(p.getColor() != P->getColor()){
-        isDiferent = true;
+    if(P!=NULL){
+        if(p.getColor() != P->getColor()){
+            isDiferent = true;
+        }
     }
-
 
     return isDiferent;
 }
@@ -105,7 +112,7 @@ Piece* Echiquier::getPiece(int x, int y){
     Piece *p;
     if(x>=1&&x<=8){
         if(y>=1&&y<=8){
-            p = echiquier[x-1][y-1];
+            p = echiquier[x-1][y-1]; //RETOURNE NULL SI PAS DE PIECE
         }
     }
     return p;
@@ -117,8 +124,7 @@ void Echiquier::toString(){
     for(int y = 1; y<=8; y++){
         cout << " " << X++ << " " ;
         for(int x = 1; x<=8; x++){
-                // this->coordIsNotFree(x,y)
-            if(this->coordIsNotFree(x,y)){
+            if(this->coordIsFree(x,y)){
                if((x+y)%2==0){
                 cout << "#";
                }
