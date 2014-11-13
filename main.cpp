@@ -1,4 +1,5 @@
 #include <iostream>
+#include <typeinfo>
 #include "Pieces.h"
 #include "Joueur.h"
 #include "Echiquier.h"
@@ -14,7 +15,6 @@ void newGame(Echiquier &e, JoueurBlanc &jb, JoueurNoir &jn);
 
 int main()
 {
-    recap();
     cout << "Jeu d'echec!" << endl;
 
     JoueurBlanc *jb = new JoueurBlanc();
@@ -24,6 +24,8 @@ int main()
     int tour = 0, numPiece, x, y;
     bool gameOver = false, saisiOk = false, echec = false;
     vector<Piece*> lesPieces;
+    Piece *p(0);
+    Roi *r(0);
 
     while(!gameOver){
         /* DEBUT DE LA MAIN */
@@ -39,16 +41,30 @@ int main()
             lesPieces = move(jn->getPieces());
             jn->mesPieces();
         }
+/*
 
+        p = lesPieces[8];
+        r = dynamic_cast<Roi*>(p);
+
+        cout << dynamic_cast<Roi*>(p) << endl;
+*/
         while(!saisiOk){
+            if(echec){
+                cout << endl << " ECHEC ! DEPLACEZ LE ROI !" << endl;
+                cout << endl << " ENTRER LE N. DE LA PIECE : " << endl;
+                cin >> numPiece;
+                p = lesPieces[numPiece-1];
+                r = dynamic_cast<Roi*>(p);
+            }
+            else{
+                cout << endl << " ENTRER LE N. DE LA PIECE : " << endl;
+                cin >> numPiece;
+            }
 
-            cout << endl << " ENTRER LE N. DE LA PIECE : " << endl;
-            cin >> numPiece;
             cout << endl << " ENTRER LA COLONNE : " << endl;
             cin >> x;
             cout << endl << " ENTRER LA LIGNE: " << endl;
             cin >> y;
-
 
             if(numPiece<1 || numPiece > 16  || x<1 || x>8 || y<1 || y>8){
                 cout << endl << " SAISI INCORRECTE !  " << endl;
@@ -58,6 +74,7 @@ int main()
                 if(!saisiOk)
                     cout << endl << " SAISI INCORRECTE !  " << endl;
             }
+
         }
 
         //e->toString();

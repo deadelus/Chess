@@ -80,11 +80,10 @@ bool Roi::toMoveIsValid(int x, int y){
         for(int i = xOrigin-1; i <= xOrigin+1; i++){
             for(int j = yOrigin-1; j <= yOrigin+1; j++){
                 if(i == x && j == y){
-                    isValid = true;
+                    isValid = Piece::toMoveIsValid(x, y);
                 }
             }
         }
-       isValid = Piece::toMoveIsValid(x, y);
     }
     return isValid;
 }
@@ -141,19 +140,18 @@ bool Fou::toMoveIsValid(int x, int y){
         // Calcul des diagonales
         for(int i = 0; i<8; i++){
             if(x == xOrigin+i && y == xOrigin+i){
-                isValid = true;
+                isValid = Piece::toMoveIsValid(x, y);
             }
             if(x == xOrigin+i && y == xOrigin-i){
-                isValid = true;
+                isValid = Piece::toMoveIsValid(x, y);
             }
             if(x == xOrigin-i && y == xOrigin+i){
-                isValid = true;
+                isValid = Piece::toMoveIsValid(x, y);
             }
             if(x == xOrigin-i && y == xOrigin-i){
-                isValid = true;
+                isValid = Piece::toMoveIsValid(x, y);
             }
         }
-       isValid = Piece::toMoveIsValid(x, y);
     }
 
     return isValid;
@@ -184,31 +182,30 @@ bool isValid = false;
 
     //On a besoin que du x car les diagonales representent une fonction linéaire tel que y = x,
     if(xOrigin != x && yOrigin != y){
-        isValid = Piece::toMoveIsValid(x, y);
         // Calcul des lignes et colonnes
         if(x == xOrigin+1 && y == yOrigin+2){
-            isValid = true;
+            isValid = Piece::toMoveIsValid(x, y);
         }
         if(x == xOrigin+1 && y == yOrigin-2){
-            isValid = true;
+            isValid = Piece::toMoveIsValid(x, y);
         }
         if(x == xOrigin+2 && y == yOrigin+1){
-            isValid = true;
+            isValid = Piece::toMoveIsValid(x, y);
         }
         if(x == xOrigin+2 && y == yOrigin-1){
-            isValid = true;
+            isValid = Piece::toMoveIsValid(x, y);
         }
         if(x == xOrigin-1 && y == yOrigin+2){
-            isValid = true;
+            isValid = Piece::toMoveIsValid(x, y);
         }
         if(x == xOrigin-1 && y == yOrigin-2){
-            isValid = true;
+            isValid = Piece::toMoveIsValid(x, y);
         }
         if(x == xOrigin-2 && y == yOrigin+1){
-            isValid = true;
+            isValid = Piece::toMoveIsValid(x, y);
         }
         if(x == xOrigin-2 && y == xOrigin-1){
-            isValid = true;
+            isValid = Piece::toMoveIsValid(x, y);
         }
     }
 
@@ -239,23 +236,20 @@ bool Tour::toMoveIsValid(int x, int y){
     //On a besoin que du x car les diagonales representent une fonction linéaire tel que y = x,
     if(xOrigin != x && yOrigin != y){
         // Calcul des lignes et colonnes
-
         for(int i = 0; i<8; i++){
             if(x == xOrigin && y == xOrigin+i){
-                isValid = true;
+                isValid = Piece::toMoveIsValid(x, y);
             }
             if(x == xOrigin+i && y == xOrigin){
-                isValid = true;
+                isValid = Piece::toMoveIsValid(x, y);
             }
             if(x == xOrigin && y == xOrigin-i){
-                isValid = true;
+                isValid = Piece::toMoveIsValid(x, y);
             }
             if(x == xOrigin-i && y == xOrigin){
-                isValid = true;
+                isValid = Piece::toMoveIsValid(x, y);
             }
         }
-
-       isValid = Piece::toMoveIsValid(x, y);
     }
 
     return isValid;
