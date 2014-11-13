@@ -9,12 +9,12 @@ Echiquier::Echiquier()
     cout << "Creation de l'echiquier!" << endl;
 
     for(int x = 0; x<8; x++){
-        cout << x << endl;
+        //cout << x << endl;
         for(int y = 0; y<8; y++){
             echiquier[x][y]=NULL;
-            cout << y;
+            //cout << y;
         }
-        cout << endl;
+        //cout << endl;
     }
     //ctor
 }
@@ -34,18 +34,23 @@ void Echiquier::placerPiece(Piece *p){
 
     if(x>=1&&x<=8){
         if(y>=1&&y<=8){
-
-
         }
     }
 }
 
-void Echiquier::deplacerPiece(Piece *p, int oldX, int oldY){
-    int x = p->getX();
-    int y = p->getY();
+bool Echiquier::deplacerPiece(Piece *p, int x, int y){
+    bool isValid = p->toMoveIsValid(x,y);
+    cout << isValid << endl;
 
-    echiquier[oldX-1][oldY-1] = NULL;
-    echiquier[x-1][y-1] = p;
+    if(isValid){
+        int oldX = p->getX();
+        int oldY = p->getY();
+        echiquier[oldX-1][oldY-1] = NULL;
+        echiquier[x-1][y-1] = p;
+        p->toMove(x, y);
+    }
+
+    return isValid;
 }
 
 void Echiquier::delPiece(Piece *p){
@@ -108,9 +113,9 @@ Piece* Echiquier::getPiece(int x, int y){
 
 void Echiquier::toString(){
     cout << endl;
-    int X = 8;
+    int X = 1;
     for(int y = 1; y<=8; y++){
-        cout << X-- << " " ;
+        cout << " " << X++ << " " ;
         for(int x = 1; x<=8; x++){
                 // this->coordIsNotFree(x,y)
             if(this->coordIsNotFree(x,y)){
@@ -125,8 +130,8 @@ void Echiquier::toString(){
                 cout << echiquier[x-1][y-1]->myCode();
             }
         }
-        cout << " " << endl;
+        cout << "  " << endl;
     }
     cout << endl;
-    cout << "  12345678" << endl;
+    cout << "   12345678" << endl;
 }

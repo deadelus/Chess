@@ -101,6 +101,26 @@ JoueurNoir::JoueurNoir()//                                                      
     this->setPieces(*lesPieces);
 }
 
+void Joueur::mesPieces(){
+    int it = 1;
+    vector<Piece*>::iterator p = lesPieces.begin();
+
+    cout << endl << " == MES PIECES [ position : code ] == " << endl << endl;
+    while(p != lesPieces.end())
+    {
+
+        cout << " n." << it << " ["<< (*p)->getX() << " : "<< (*p)->getY() <<"] "<< (*p)->myCode() << " " ;
+        if(it==8)
+            cout <<  endl;
+        if(it%4==0)
+            cout << endl ;
+
+        p++;
+        it++;
+    }
+    cout << endl << endl;
+}
+
 void Joueur::toString(){
     cout << "Un joueur" << endl;
 }

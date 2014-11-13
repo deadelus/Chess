@@ -16,6 +16,7 @@ class Joueur
         string getNom();
         void setPieces(vector<Piece*> vp);
         bool getColor();
+        void mesPieces();
         void toString();
     protected:
         vector<Piece*> lesPieces;

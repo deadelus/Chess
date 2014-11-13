@@ -12,7 +12,7 @@ class Echiquier
         Echiquier();
         virtual ~Echiquier();
         void placerPiece(Piece *p);
-        void deplacerPiece(Piece *p, int oldX, int oldY);
+        bool deplacerPiece(Piece *p, int oldX, int oldY);
 
         void addPiece(Piece *p);//AJOUTE UNE PIECE SUR L'ECHIQUIER
         void delPiece(Piece *p);//ENLEVE UNE PIECE DE L'ECHIQUIER

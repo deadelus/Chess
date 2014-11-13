@@ -21,7 +21,7 @@ Piece::Piece(int x, int y, bool color)
 Piece::~Piece()
 {
     //dtor
-    cout << "Destruction Piece" << endl;
+    //cout << "Destruction Piece" << endl;
 }
 //METHODES GENERALES
 int Piece::getX(){
@@ -52,9 +52,14 @@ void Piece::setColor(bool color){
 bool Piece::toMoveIsValid(int x, int y){
     bool isValid = false;
     if(x>0 && x<9 && y>0 && y<9){
-        return isValid;
+        isValid = true;
     }
     return isValid;
+}
+
+void Piece::toMove(int x, int y){
+    setX(x);
+    setY(y);
 }
 
 char Piece::myCode(){
@@ -274,13 +279,41 @@ void Tour::toString(){
 
 //PION
 bool Pion::toMoveIsValid(int x, int y){
-    bool isValid = false;
+    bool isValid = true;
+
     int xOrigin = this->getX();
     int yOrigin = this->getY();
+    bool color  = this->getColor();
 
-    if((x == xOrigin+1 && y == yOrigin+1)||(x == xOrigin-1 && y == yOrigin+1)){
-        isValid = true;
+    cout << " Origine x " << xOrigin << " Des x " << x << endl;
+    cout << " Origine y " << yOrigin << " Des y " << y << endl;
+
+    if((y == 4)
+        &&(color==BLANC)
+        && (x == xOrigin)){
         isValid = Piece::toMoveIsValid(x, y);
+    }
+
+    if((y == 5)
+       &&(color==NOIR)
+       &&(x == xOrigin)){
+        isValid = Piece::toMoveIsValid(x, y);
+    }
+
+    if(color == BLANC){
+        if((x == xOrigin && y == yOrigin+1)||
+           (x == xOrigin+1 && y == yOrigin+1)||
+           (x == xOrigin-1 && y == yOrigin+1)){
+            isValid = Piece::toMoveIsValid(x, y);
+        }
+    }
+
+    else{
+        if((x == xOrigin && y == yOrigin-1)||
+           (x == xOrigin+1 && y == yOrigin-1)||
+           (x == xOrigin-1 && y == yOrigin-1)){
+            isValid = Piece::toMoveIsValid(x, y);
+        }
     }
 
     return isValid;
@@ -305,25 +338,25 @@ void Pion::toString(){
 //ctor
 
 Roi::Roi(bool color) : Piece(5,(color)?1:8,color){
-    cout << "Constructeur Roi" << endl;
+    //cout << "Constructeur Roi" << endl;
 }
 
 Reine::Reine(bool color) : Piece(4,(color)?1:8, color), Tour(color, true), Fou(color, true){
-    cout << "Constructeur Reine" << endl;
+    //cout << "Constructeur Reine" << endl;
 }
 
 Tour::Tour (bool color, bool position) : Piece((position)?1:8,(color)?1:8,color){
-    cout << "Constructeur Tour" << endl;
+    //cout << "Constructeur Tour" << endl;
 }
 
 Cavalier::Cavalier(bool color, bool position) : Piece((position)?2:7,(color)?1:8,color){
-    cout << "Constructeur Cavalier" << endl;
+    //cout << "Constructeur Cavalier" << endl;
 }
 
 Fou::Fou(bool color, bool position) : Piece((position)?3:6,(color)?1:8,color){
-    cout << "Constructeur Fou" << endl;
+    //cout << "Constructeur Fou" << endl;
 }
 
 Pion::Pion(bool color, int x) : Piece(x,(color)?2:7,color){
-    cout << "Constructeur Pion" << endl;
+    //cout << "Constructeur Pion" << endl;
 }

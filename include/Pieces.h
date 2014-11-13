@@ -14,10 +14,8 @@ class Piece
         void setY(int y);
         bool getColor();
         void setColor(bool color);
-
         void toMove(int x, int y);
         virtual bool toMoveIsValid(int x, int y);
-
         virtual char myCode();
         virtual void toString();
     protected:
