@@ -5,9 +5,12 @@
 #define DROITE true
 #define GAUCHE false
 
+using namespace std;
+
 Joueur::Joueur()
 {
     //ctor
+    this->setNom("noNamed");
 }
 
 Joueur::~Joueur()
@@ -31,6 +34,47 @@ vector<Piece*> Joueur::getPieces(){
 void  Joueur::setPieces(vector<Piece*> vp){
     this->lesPieces = move(vp);
 }
+
+void Joueur::setRoi(Roi &r){
+    this->roi = &r;
+}
+
+Roi* Joueur::getRoi(){
+    return roi;
+}
+
+void Joueur::mesPieces(){
+    int it = 1;
+    vector<Piece*>::iterator p = lesPieces.begin();
+
+    cout << endl << " == MES PIECES [ position : code ] == " << endl << endl;
+    while(p != lesPieces.end())
+    {
+
+        cout << " n." << it << " ["<< (*p)->getX() << " : "<< (*p)->getY() <<"] "<< (*p)->myCode() << " " ;
+        if(it==8)
+            cout <<  endl;
+        if(it%4==0)
+            cout << endl ;
+
+        p++;
+        it++;
+    }
+    cout << endl << endl;
+}
+
+void Joueur::setNom(string n){
+    this->Nom = n;
+}
+
+string Joueur::getNom(){
+    return Nom;
+}
+
+void Joueur::toString(){
+    cout << "UN JOUEUR QUI S'APPELLE " << this->getNom() << endl;
+}
+
 
 //Constructeur class fille
 
@@ -64,6 +108,8 @@ JoueurBlanc::JoueurBlanc()// : Joueur (true)
     lesPieces->push_back(CavalierDROITE);
     lesPieces->push_back(CavalierGAUCHE);
 
+
+    this->setRoi(*r);
     this->setPieces(*lesPieces);
 }
 
@@ -98,29 +144,6 @@ JoueurNoir::JoueurNoir()//                                                      
     lesPieces->push_back(CavalierDROITE);
     lesPieces->push_back(CavalierGAUCHE);
 
+    this->setRoi(*r);
     this->setPieces(*lesPieces);
-}
-
-void Joueur::mesPieces(){
-    int it = 1;
-    vector<Piece*>::iterator p = lesPieces.begin();
-
-    cout << endl << " == MES PIECES [ position : code ] == " << endl << endl;
-    while(p != lesPieces.end())
-    {
-
-        cout << " n." << it << " ["<< (*p)->getX() << " : "<< (*p)->getY() <<"] "<< (*p)->myCode() << " " ;
-        if(it==8)
-            cout <<  endl;
-        if(it%4==0)
-            cout << endl ;
-
-        p++;
-        it++;
-    }
-    cout << endl << endl;
-}
-
-void Joueur::toString(){
-    cout << "Un joueur" << endl;
 }

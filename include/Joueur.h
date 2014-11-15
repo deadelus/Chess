@@ -4,24 +4,23 @@
 #include <vector>
 #include "Pieces.h"
 
-using namespace std;
-
 class Joueur
 {
     public:
         Joueur();
-        Joueur(bool color);
         virtual ~Joueur();
-        vector<Piece*> getPieces();
-        string getNom();
-        void setPieces(vector<Piece*> vp);
-        bool getColor();
+        std::vector<Piece*> getPieces();
+        std::string getNom();
+        Roi* getRoi();
+        void setPieces(std::vector<Piece*> vp);
         void mesPieces();
+        void setNom(std::string n);
+        void setRoi(Roi &roi);
         void toString();
     protected:
-        vector<Piece*> lesPieces;
-        string Nom;
-        bool color;
+        std::vector<Piece*> lesPieces;
+        Roi* roi;
+        std::string Nom;
     private:
 };
 

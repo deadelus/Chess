@@ -41,7 +41,7 @@ void Echiquier::placerPiece(Piece *p){
 bool Echiquier::deplacerPiece(Piece *p, int x, int y){
     bool isValid = false;
 
-    isValid = p->toMoveIsValid(x,y);
+    isValid = p->toMoveIsValid(*this,x,y);
 
     if(isValid){
         cout << " Coordonee VALIDE ! " << endl;
@@ -72,7 +72,7 @@ bool Echiquier::deplacerPiece(Piece *p, int x, int y){
 void Echiquier::delPiece(Piece *p){
     int x = p->getX();
     int y = p->getY();
-    if(x>=1&&x<=8){
+    if(x>=1&&x<=8){vector<Piece*> lesPieces;
         if(y>=1&&y<=8){
             if(echiquier[x-1][y-1] == p){
                 echiquier[x-1][y-1] = NULL;
@@ -92,6 +92,10 @@ bool Echiquier::coordIsFree(int x, int y){
         }
     }
     return isFree;
+}
+
+bool Echiquier::coordIsFreeToKing(int x, int y){
+    return true;
 }
 
 bool Echiquier::comparerPiece(Piece &p, int x, int y){

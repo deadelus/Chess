@@ -49,7 +49,7 @@ void Piece::setColor(bool color){
 }
 
 //PIECE
-bool Piece::toMoveIsValid(int x, int y){
+bool Piece::toMoveIsValid(Echiquier &e,int x, int y){
     bool isValid = false;
     if(x>0 && x<9 && y>0 && y<9){
         isValid = true;
@@ -71,16 +71,17 @@ void Piece::toString(){
 }
 
 //ROI
-bool Roi::toMoveIsValid(int x, int y){
+bool Roi::toMoveIsValid(Echiquier &e,int x, int y){
     bool isValid = false;
     int xOrigin = this->getX();
     int yOrigin = this->getY();
+    //Echiquier &e = &e;
 
     if(xOrigin != x && yOrigin != y){
         for(int i = xOrigin-1; i <= xOrigin+1; i++){
             for(int j = yOrigin-1; j <= yOrigin+1; j++){
                 if(i == x && j == y){
-                    isValid = Piece::toMoveIsValid(x, y);
+                    isValid = Piece::toMoveIsValid(e,x, y);
                 }
             }
         }
@@ -105,10 +106,10 @@ void Roi::toString(){
 }
 
 //REINE
-bool Reine::toMoveIsValid(int x, int y){
+bool Reine::toMoveIsValid(Echiquier &e,int x, int y){
     bool isValid = false;
-    isValid = Tour::toMoveIsValid(x, y);
-    isValid = Fou::toMoveIsValid(x, y);
+    isValid = Tour::toMoveIsValid(e,x,y);
+    isValid = Fou::toMoveIsValid(e,x,y);
 
     return isValid;
 }
@@ -130,7 +131,7 @@ void Reine::toString(){
 }
 
 //FOU
-bool Fou::toMoveIsValid(int x, int y){
+bool Fou::toMoveIsValid(Echiquier &e,int x, int y){
     bool isValid = false;
     int xOrigin = this->getX();
     int yOrigin = this->getY();
@@ -140,16 +141,16 @@ bool Fou::toMoveIsValid(int x, int y){
         // Calcul des diagonales
         for(int i = 0; i<8; i++){
             if(x == xOrigin+i && y == xOrigin+i){
-                isValid = Piece::toMoveIsValid(x, y);
+                isValid = Piece::toMoveIsValid(e,x, y);
             }
             if(x == xOrigin+i && y == xOrigin-i){
-                isValid = Piece::toMoveIsValid(x, y);
+                isValid = Piece::toMoveIsValid(e,x, y);
             }
             if(x == xOrigin-i && y == xOrigin+i){
-                isValid = Piece::toMoveIsValid(x, y);
+                isValid = Piece::toMoveIsValid(e,x, y);
             }
             if(x == xOrigin-i && y == xOrigin-i){
-                isValid = Piece::toMoveIsValid(x, y);
+                isValid = Piece::toMoveIsValid(e,x, y);
             }
         }
     }
@@ -175,7 +176,7 @@ void Fou::toString(){
 
 
 //CAVALIER
-bool Cavalier::toMoveIsValid(int x, int y){
+bool Cavalier::toMoveIsValid(Echiquier &e,int x, int y){
 bool isValid = false;
     int xOrigin = this->getX();
     int yOrigin = this->getY();
@@ -184,28 +185,28 @@ bool isValid = false;
     if(xOrigin != x && yOrigin != y){
         // Calcul des lignes et colonnes
         if(x == xOrigin+1 && y == yOrigin+2){
-            isValid = Piece::toMoveIsValid(x, y);
+            isValid = Piece::toMoveIsValid(e,x, y);
         }
         if(x == xOrigin+1 && y == yOrigin-2){
-            isValid = Piece::toMoveIsValid(x, y);
+            isValid = Piece::toMoveIsValid(e,x, y);
         }
         if(x == xOrigin+2 && y == yOrigin+1){
-            isValid = Piece::toMoveIsValid(x, y);
+            isValid = Piece::toMoveIsValid(e,x, y);
         }
         if(x == xOrigin+2 && y == yOrigin-1){
-            isValid = Piece::toMoveIsValid(x, y);
+            isValid = Piece::toMoveIsValid(e,x, y);
         }
         if(x == xOrigin-1 && y == yOrigin+2){
-            isValid = Piece::toMoveIsValid(x, y);
+            isValid = Piece::toMoveIsValid(e,x, y);
         }
         if(x == xOrigin-1 && y == yOrigin-2){
-            isValid = Piece::toMoveIsValid(x, y);
+            isValid = Piece::toMoveIsValid(e,x, y);
         }
         if(x == xOrigin-2 && y == yOrigin+1){
-            isValid = Piece::toMoveIsValid(x, y);
+            isValid = Piece::toMoveIsValid(e,x, y);
         }
         if(x == xOrigin-2 && y == xOrigin-1){
-            isValid = Piece::toMoveIsValid(x, y);
+            isValid = Piece::toMoveIsValid(e,x, y);
         }
     }
 
@@ -229,7 +230,7 @@ void Cavalier::toString(){
 }
 
 //TOUR
-bool Tour::toMoveIsValid(int x, int y){
+bool Tour::toMoveIsValid(Echiquier &e,int x, int y){
     bool isValid = false;
     int xOrigin = this->getX();
     int yOrigin = this->getY();
@@ -238,16 +239,16 @@ bool Tour::toMoveIsValid(int x, int y){
         // Calcul des lignes et colonnes
         for(int i = 0; i<8; i++){
             if(x == xOrigin && y == xOrigin+i){
-                isValid = Piece::toMoveIsValid(x, y);
+                isValid = Piece::toMoveIsValid(e,x, y);
             }
             if(x == xOrigin+i && y == xOrigin){
-                isValid = Piece::toMoveIsValid(x, y);
+                isValid = Piece::toMoveIsValid(e,x, y);
             }
             if(x == xOrigin && y == xOrigin-i){
-                isValid = Piece::toMoveIsValid(x, y);
+                isValid = Piece::toMoveIsValid(e,x, y);
             }
             if(x == xOrigin-i && y == xOrigin){
-                isValid = Piece::toMoveIsValid(x, y);
+                isValid = Piece::toMoveIsValid(e,x, y);
             }
         }
     }
@@ -271,7 +272,7 @@ void Tour::toString(){
 }
 
 //PION
-bool Pion::toMoveIsValid(int x, int y){
+bool Pion::toMoveIsValid(Echiquier &e,int x, int y){
     bool isValid = false;
 
     int xOrigin = this->getX();
@@ -284,20 +285,20 @@ bool Pion::toMoveIsValid(int x, int y){
     if((y == 4)
         &&(color==BLANC)
         && (x == xOrigin)){
-        isValid = Piece::toMoveIsValid(x, y);
+        isValid = Piece::toMoveIsValid(e,x, y);
     }
 
     if((y == 5)
        &&(color==NOIR)
        &&(x == xOrigin)){
-        isValid = Piece::toMoveIsValid(x, y);
+        isValid = Piece::toMoveIsValid(e,x, y);
     }
 
     if(color == BLANC){
         if((x == xOrigin && y == yOrigin+1)||
            (x == xOrigin+1 && y == yOrigin+1)||
            (x == xOrigin-1 && y == yOrigin+1)){
-            isValid = Piece::toMoveIsValid(x, y);
+            isValid = Piece::toMoveIsValid(e,x, y);
         }
     }
 
@@ -305,7 +306,7 @@ bool Pion::toMoveIsValid(int x, int y){
         if((x == xOrigin && y == yOrigin-1)||
            (x == xOrigin+1 && y == yOrigin-1)||
            (x == xOrigin-1 && y == yOrigin-1)){
-            isValid = Piece::toMoveIsValid(x, y);
+            isValid = Piece::toMoveIsValid(e,x, y);
         }
     }
 
@@ -330,7 +331,7 @@ void Pion::toString(){
 
 //ctor
 
-Roi::Roi(bool color) : Piece(5,(color)?1:8,color){
+Roi::Roi(bool color) : Piece(5,(color)?5:8,color){
     //cout << "Constructeur Roi" << endl;
 }
 

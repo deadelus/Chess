@@ -1,30 +1,31 @@
 # depslib dependency file v1.0
-1415907041 source:d:\_repositories\chess\main.cpp
+1416015809 source:d:\_repositories\chess\main.cpp
 	<iostream>
+	<typeinfo>
 	"Pieces.h"
 	"Joueur.h"
 	"Echiquier.h"
 
-1415888854 d:\_repositories\chess\include\pieces.h
+1416015775 d:\_repositories\chess\include\pieces.h
 
-1415912097 source:d:\_repositories\chess\src\pieces.cpp
+1416014474 source:d:\_repositories\chess\src\pieces.cpp
 	<iostream>
 	"Pieces.h"
 
-1415883394 d:\_repositories\chess\include\joueur.h
+1416011315 d:\_repositories\chess\include\joueur.h
 	<string>
 	<vector>
 	"Pieces.h"
 
-1415888213 source:d:\_repositories\chess\src\joueur.cpp
+1416012754 source:d:\_repositories\chess\src\joueur.cpp
 	<iostream>
 	"Joueur.h"
 
-1415908118 source:d:\_repositories\chess\src\echiquier.cpp
+1416015846 source:d:\_repositories\chess\src\echiquier.cpp
 	<iostream>
 	"Echiquier.h"
 
-1415907976 d:\_repositories\chess\include\echiquier.h
+1416009175 d:\_repositories\chess\include\echiquier.h
 	<vector>
 	"Pieces.h"
 
