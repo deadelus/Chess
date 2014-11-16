@@ -12,7 +12,6 @@
 
  VERIFIER DANS CHAQUE CASE SI LA COORDONNE EST PRISE ET SI OUI LA TUE
 
-
 */
 
 using namespace std;
@@ -31,6 +30,7 @@ vector<Piece*> lesPieces;
 vector<Piece*> lesBlanches = move(jb->getPieces());
 vector<Piece*> lesNoires = move(jn->getPieces());
 Roi *r(0);
+char roque;
 
 
 int main()
@@ -53,6 +53,8 @@ int main()
 
     newGame(*e, *jb, *jn);
     Piece *p(0);
+    Roi *rSaisi(0);
+    Piece *pSaisi(0);
 
     while(!gameOver){
         /* DEBUT DE LA MAIN */
@@ -64,20 +66,23 @@ int main()
 
             jb->mesPieces();
             r = jb->getRoi();
+            /*
             if(eMat(*r)){
                 gameOver = true;
                 cout << endl  <<   jn->getNom() << " VOUS A MIS ECHEC ET MAT " << endl << endl;
-            }
+            }*/
         }
         else{
             cout << endl << " TOUR N. " << tour << " " <<   jn->getNom() << endl << endl;
             lesPieces = move(jn->getPieces());
             jn->mesPieces();
             r = jn->getRoi();
+            /*
             if(eMat(*r)){
                 gameOver = true;
                 cout << endl  <<   jb->getNom() << " VOUS A MIS ECHEC ET MAT " << endl << endl;
             }
+            */
         }
 
 /*
@@ -88,42 +93,41 @@ int main()
 */
         while(!saisiOk && !gameOver){
             if(isEchec(*r, r->getX(), r->getY())){
+                cout << endl << " ECHEC ! DEPLACEZ LE ROI !" << endl;
                 while(!saisiOk){
                     if(!saisiRoiOk){
-                        cout << endl << " ECHEC ! DEPLACEZ LE ROI !" << endl;
                         cout << endl << " ENTRER LE N. DE LA PIECE : " << endl;
                         cin >> numPiece;
                         p = lesPieces[numPiece-1];
                         r = dynamic_cast<Roi*>(p);
-                        if(r != NULL){
+                        if(r != 0){
                             saisiRoiOk = true;
                         }
                     }
                     else{
-                        cout << endl << " ENTRER LE N. DE LA PIECE : " << endl;
-                        cin >> numPiece;
                         cout << endl << " ENTRER LA COLONNE : " << endl;
                         cin >> x;
                         cout << endl << " ENTRER LA LIGNE: " << endl;
                         cin >> y;
 
-                        if(isEchec(*r, x, y)){
+
                             if(numPiece<1 || numPiece > 16  || x<1 || x>8 || y<1 || y>8){
-                                cout << endl << " SAISI INCORRECTE !  " << endl;
+                                cout << endl << " SAISI INCORRECTE ! VOUS SORTEZ DE L'ECHIQUIER " << endl;
+                                saisiRoiOk = false;
+                            }
+                            else if(isEchec(*r, x, y)){
+                                cout << endl << " SAISI INCORRECTE ! VOUS ETES TOUJOURS EN ECHEC  " << endl;
                             }
                             else{
                                 saisiOk = e->deplacerPiece(lesPieces[numPiece-1], x, y);
                                 if(!saisiOk)
-                                    cout << endl << " SAISI INCORRECTE !  " << endl;
+                                    cout << endl << " SAISI INCORRECTE ! DEPLACEMENT IMPOSSIBLE ";
+                                    saisiRoiOk = false;
                             }
-                        }
-                        else{
-                            cout << endl << " SAISI INCORRECTE !  " << endl;
                         }
                     }
                 }
-            }
-            else{
+                else{
                 cout << endl << " ENTRER LE N. DE LA PIECE : " << endl;
                 cin >> numPiece;
                 cout << endl << " ENTRER LA COLONNE : " << endl;
@@ -132,24 +136,59 @@ int main()
                 cin >> y;
 
                 if(numPiece<1 || numPiece > 16  || x<1 || x>8 || y<1 || y>8){
-                    cout << endl << " SAISI INCORRECTE !  " << endl;
+                    cout << endl << "SAISI INCORRECTE ! VOUS SORTEZ DE L'ECHIQUIER" << endl;
                 }
                 else{
-                    saisiOk = e->deplacerPiece(lesPieces[numPiece-1], x, y);
-                    if(!saisiOk)
-                        cout << endl << " SAISI INCORRECTE !  " << endl;
+                    pSaisi = lesPieces[numPiece-1];
+                    rSaisi = dynamic_cast<Roi*>(pSaisi);
+                    cout << rSaisi << endl;
+                    if(rSaisi != 0){
+                       if(isEchec(*r, x, y)){
+                            cout << endl << " SAISI INCORRECTE VOUS SEREZ EN ECHEC ICI!  " << endl;
+                       }
+                       else if((
+                           (y==8 && x==7)||
+                           (y==8 && x==3)||
+                           (y==1 && x==7)||
+                           (y==1 && x==3))&&
+                           !(rSaisi->getIsRoqued())){
+
+                                while(roque != 'y' && roque != 'n'){
+                                    cout << "Voulez vous roquer ? [y / n]" << endl;
+                                    cin >> roque;
+                                }
+
+                           if(roque == 'y'){
+                                saisiOk = rSaisi->roque(e,x,y);
+                                if(!saisiOk){
+                                    cout << endl << " SAISI INCORRECTE ! ROQUE IMPOSSIBLE  " << endl;
+                                }
+                           }
+                        }
+                       else{
+                            saisiOk = e->deplacerPiece(lesPieces[numPiece-1], x, y);
+                            if(!saisiOk){
+                                cout << endl << " SAISI INCORRECTE ! DEPLACEMENT IMPOSSIBLE  " << endl;
+                            }
+                       }
+                    }
+                    else{
+                        saisiOk = e->deplacerPiece(lesPieces[numPiece-1], x, y);
+                        if(!saisiOk){
+                            cout << endl << " SAISI INCORRECTE ! DEPLACEMENT IMPOSSIBLE  " << endl;
+                        }
+                    }
                 }
             }
 
         }
+    lesPieces.clear();
+    saisiOk = false;
+    *r = NULL;
+    if(tour==10)
+        gameOver = true;
+    tour++;
 
-        //e->toString();
-
-        lesPieces.clear();
-        saisiOk = false;
-        if(tour==10)
-            gameOver = true;
-        tour++;
     }
     /* FIN DE LA MAIN */
     //cout << endl << numPiece;
@@ -183,7 +222,6 @@ void newGame (Echiquier &e, JoueurBlanc &jb, JoueurNoir &jn){
 
 
 bool eMat(Roi &r){
-    bool color = r.getColor();
     bool isFree = false;
 
     int x = r.getX();
@@ -191,7 +229,7 @@ bool eMat(Roi &r){
 
     for(int i=x-1; i<x+1; i++){
         for(int j=y-1; j<y+1; j++){
-            isFree=r.toMoveIsValid(*e,x,y);
+            isFree=r.toMoveIsValid(e,i,j);
             isFree=isEchec(r,x,y);
         }
     }
@@ -200,27 +238,34 @@ bool eMat(Roi &r){
 
 bool isEchec(Roi &r, int x, int y){
     bool color = r.getColor();
+
     bool Echec = false;
 
     vector<Piece*>::iterator pb = lesBlanches.begin();
     vector<Piece*>::iterator pn = lesNoires.begin();
 
-    if(!color){
-        while(pb != lesBlanches.end())
-        {
-            Echec=(*pb)->toMoveIsValid(*e,x, y);
-            pb++;
-        }
-    }
-    else{
+    if(color){
         while(pn != lesNoires.end())
         {
-            Echec=(*pn)->toMoveIsValid(*e,x, y);
-            if(Echec){
+            if((*pn)->toMoveIsValid(e,x,y)){
+                Echec=true;
                 (*pn)->toString();
+
             }
 
             pn++;
+        }
+    }
+    else{
+        while(pb != lesBlanches.end())
+        {
+            if((*pb)->toMoveIsValid(e,x,y)){
+                Echec=true;
+                (*pb)->toString();
+                cout << "TA RACE DE PUTE" << endl;
+            }
+
+            pb++;
         }
     }
     //Echec=p->toMoveIsValid(r->getX(), r->getY());

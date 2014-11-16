@@ -40,8 +40,8 @@ void Echiquier::placerPiece(Piece *p){
 
 bool Echiquier::deplacerPiece(Piece *p, int x, int y){
     bool isValid = false;
-
-    isValid = p->toMoveIsValid(*this,x,y);
+    bool free = this->coordIsFree(x,y);
+    isValid = p->toMoveIsValid(this,x,y);
 
     if(isValid){
         cout << " Coordonee VALIDE ! " << endl;
@@ -49,20 +49,14 @@ bool Echiquier::deplacerPiece(Piece *p, int x, int y){
         int oldY = p->getY();
 
 
-        if(coordIsFree(x,y)){
+        if(comparerPiece(*p,x,y)){
+            if(!free){
+                delPiece(echiquier[x-1][y-1]);
+            }
             echiquier[oldX-1][oldY-1] = NULL;
             echiquier[x-1][y-1] = p;
             p->toMove(x, y);
             isValid = true;
-        }
-        else{
-            if(comparerPiece(*p,x,y)){
-                echiquier[oldX-1][oldY-1] = NULL;
-                delPiece(echiquier[x-1][y-1]);
-                echiquier[x-1][y-1] = p;
-                p->toMove(x, y);
-                isValid = true;
-            }
         }
     }
 
@@ -72,11 +66,14 @@ bool Echiquier::deplacerPiece(Piece *p, int x, int y){
 void Echiquier::delPiece(Piece *p){
     int x = p->getX();
     int y = p->getY();
-    if(x>=1&&x<=8){vector<Piece*> lesPieces;
-        if(y>=1&&y<=8){
-            if(echiquier[x-1][y-1] == p){
-                echiquier[x-1][y-1] = NULL;
-                delete p;
+
+    if(echiquier[x-1][y-1] != NULL){
+        if(x>=1&&x<=8){
+            if(y>=1&&y<=8){
+                if(echiquier[x-1][y-1] == p){
+                    echiquier[x-1][y-1] = NULL;
+                    delete p;
+                }
             }
         }
     }
@@ -103,10 +100,13 @@ bool Echiquier::comparerPiece(Piece &p, int x, int y){
     Piece *P(0);
     P = this->getPiece(x, y);
 
-    if(P!=NULL){
+    if(!coordIsFree(x,y)){
         if(p.getColor() != P->getColor()){
             isDiferent = true;
         }
+    }
+    else{
+        isDiferent = true;
     }
 
     return isDiferent;

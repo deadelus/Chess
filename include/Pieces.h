@@ -15,7 +15,7 @@ class Piece
         bool getColor();
         void setColor(bool color);
         void toMove(int x, int y);
-        virtual bool toMoveIsValid(Echiquier &e,int x, int y);
+        virtual bool toMoveIsValid(Echiquier *e,int x, int y);
         virtual char myCode();
         virtual void toString();
     protected:
@@ -28,15 +28,19 @@ class Piece
 class Roi : public Piece{
     public:
         Roi(bool color);
-        bool toMoveIsValid(Echiquier &e,int x, int y);
+        bool toMoveIsValid(Echiquier *e,int x, int y);
+        bool roque(Echiquier *e, int x, int y);
+        bool getIsRoqued();
         char myCode();
         void toString();
+    private:
+        bool isRoqued;
 };
 
 class Fou : virtual public Piece{
     public:
         Fou(bool color, bool position);
-        bool toMoveIsValid(Echiquier &e,int x, int y);
+        bool toMoveIsValid(Echiquier *e,int x, int y);
         char myCode();
         void toString();
 };
@@ -44,7 +48,7 @@ class Fou : virtual public Piece{
 class Tour : virtual public Piece{
     public:
         Tour(bool color, bool position);
-        bool toMoveIsValid(Echiquier &e,int x, int y);
+        bool toMoveIsValid(Echiquier *e,int x, int y);
         char myCode();
         void toString();
 };
@@ -52,7 +56,7 @@ class Tour : virtual public Piece{
 class Reine : public Tour, public Fou{
     public:
         Reine(bool color);
-        bool toMoveIsValid(Echiquier &e,int x, int y);
+        bool toMoveIsValid(Echiquier *e,int x, int y);
         char myCode();
         void toString();
 };
@@ -60,7 +64,7 @@ class Reine : public Tour, public Fou{
 class Cavalier : virtual public Piece{
     public:
         Cavalier(bool color, bool position);
-        bool toMoveIsValid(Echiquier &e,int x, int y);
+        bool toMoveIsValid(Echiquier *e,int x, int y);
         char myCode();
         void toString();
 };
@@ -68,7 +72,7 @@ class Cavalier : virtual public Piece{
 class Pion : virtual public Piece{
     public:
         Pion(bool color, int x);
-        bool toMoveIsValid(Echiquier &e,int x, int y);
+        bool toMoveIsValid(Echiquier *e,int x, int y);
         char myCode();
         void toString();
 };
