@@ -24,11 +24,11 @@ bool isEchec(Roi &r, int x, int y);
 JoueurBlanc *jb = new JoueurBlanc();
 JoueurNoir *jn = new JoueurNoir();
 Echiquier *e = new Echiquier();
-int tour = 0, numPiece, x, y;
+int tour = 0, numPiece = 0, x = 0, y = 0;
 bool gameOver = false, saisiOk = false, echec = false, saisiRoiOk = false, deplacerRoiOk = false;;
-vector<Piece*> lesPieces;
-vector<Piece*> lesBlanches = move(jb->getPieces());
-vector<Piece*> lesNoires = move(jn->getPieces());
+vector<Piece*> *lesPieces;
+vector<Piece*> lesPiecesBlanches;
+vector<Piece*> lesPiecesNoires;
 Roi *r(0);
 char roque;
 
@@ -62,10 +62,16 @@ int main()
 
         if(tour%2==0){
             cout << endl << " TOUR N. " << tour << " " << jb->getNom() << endl << endl;
-            lesPieces = move(jb->getPieces());
+            lesPieces = &lesPiecesBlanches;
+
+            cout << " test : " << endl;
+
+            (*lesPieces)[1]->toString();
+
 
             jb->mesPieces();
             r = jb->getRoi();
+            r->toString();
             /*
             if(eMat(*r)){
                 gameOver = true;
@@ -74,9 +80,10 @@ int main()
         }
         else{
             cout << endl << " TOUR N. " << tour << " " <<   jn->getNom() << endl << endl;
-            lesPieces = move(jn->getPieces());
+            lesPieces = &lesPiecesNoires;
             jn->mesPieces();
             r = jn->getRoi();
+            r->toString();
             /*
             if(eMat(*r)){
                 gameOver = true;
@@ -92,19 +99,20 @@ int main()
         cout << dynamic_cast<Roi*>(p) << endl;
 */
         while(!saisiOk && !gameOver){
+
             if(isEchec(*r, r->getX(), r->getY())){
                 cout << endl << " ECHEC ! DEPLACEZ LE ROI !" << endl;
                 while(!saisiOk){
                     if(!saisiRoiOk){
                         cout << endl << " ENTRER LE N. DE LA PIECE : " << endl;
                         cin >> numPiece;
-                        p = lesPieces[numPiece-1];
+                        /*p = (*lesPieces)[numPiece-1];
                         r = dynamic_cast<Roi*>(p);
                         if(r != 0){
                             saisiRoiOk = true;
                         }
                     }
-                    else{
+                    else{*/
                         cout << endl << " ENTRER LA COLONNE : " << endl;
                         cin >> x;
                         cout << endl << " ENTRER LA LIGNE: " << endl;
@@ -119,7 +127,7 @@ int main()
                                 cout << endl << " SAISI INCORRECTE ! VOUS ETES TOUJOURS EN ECHEC  " << endl;
                             }
                             else{
-                                saisiOk = e->deplacerPiece(lesPieces[numPiece-1], x, y);
+                                saisiOk = e->deplacerPiece((*lesPieces)[numPiece-1], x, y);
                                 if(!saisiOk)
                                     cout << endl << " SAISI INCORRECTE ! DEPLACEMENT IMPOSSIBLE ";
                                     saisiRoiOk = false;
@@ -128,6 +136,8 @@ int main()
                     }
                 }
                 else{
+
+
                 cout << endl << " ENTRER LE N. DE LA PIECE : " << endl;
                 cin >> numPiece;
                 cout << endl << " ENTRER LA COLONNE : " << endl;
@@ -139,11 +149,11 @@ int main()
                     cout << endl << "SAISI INCORRECTE ! VOUS SORTEZ DE L'ECHIQUIER" << endl;
                 }
                 else{
-                    pSaisi = lesPieces[numPiece-1];
+                    pSaisi = (*lesPieces)[numPiece-1];
                     rSaisi = dynamic_cast<Roi*>(pSaisi);
                     cout << rSaisi << endl;
                     if(rSaisi != 0){
-                       if(isEchec(*r, x, y)){
+                       if(isEchec(*rSaisi, x, y)){
                             cout << endl << " SAISI INCORRECTE VOUS SEREZ EN ECHEC ICI!  " << endl;
                        }
                        else if((
@@ -165,15 +175,15 @@ int main()
                                 }
                            }
                         }
-                       else{
-                            saisiOk = e->deplacerPiece(lesPieces[numPiece-1], x, y);
+                        else{
+                            saisiOk = e->deplacerPiece((*lesPieces)[numPiece-1], x, y);
                             if(!saisiOk){
                                 cout << endl << " SAISI INCORRECTE ! DEPLACEMENT IMPOSSIBLE  " << endl;
                             }
                        }
                     }
                     else{
-                        saisiOk = e->deplacerPiece(lesPieces[numPiece-1], x, y);
+                        saisiOk = e->deplacerPiece((*lesPieces)[numPiece-1], x, y);
                         if(!saisiOk){
                             cout << endl << " SAISI INCORRECTE ! DEPLACEMENT IMPOSSIBLE  " << endl;
                         }
@@ -182,9 +192,9 @@ int main()
             }
 
         }
-    lesPieces.clear();
+
     saisiOk = false;
-    *r = NULL;
+    //*r = NULL;
     if(tour==10)
         gameOver = true;
     tour++;
@@ -196,8 +206,8 @@ int main()
 }
 
 void newGame (Echiquier &e, JoueurBlanc &jb, JoueurNoir &jn){
-    vector<Piece*> lesPiecesBlanches = move(jb.getPieces());
-    vector<Piece*> lesPiecesNoires = move(jn.getPieces());
+    lesPiecesBlanches = jb.getPieces();
+    lesPiecesNoires = jn.getPieces();
 
     //cout << lesPiecesBlanches.size() <<endl;
 
@@ -238,34 +248,34 @@ bool eMat(Roi &r){
 
 bool isEchec(Roi &r, int x, int y){
     bool color = r.getColor();
-
+    cout << &r << endl;
     bool Echec = false;
 
-    vector<Piece*>::iterator pb = lesBlanches.begin();
-    vector<Piece*>::iterator pn = lesNoires.begin();
+    vector<Piece*>::iterator ivpb = lesPiecesBlanches.begin();
+    vector<Piece*>::iterator ivpn = lesPiecesNoires.begin();
 
     if(color){
-        while(pn != lesNoires.end())
+        while(ivpn != lesPiecesNoires.end())
         {
-            if((*pn)->toMoveIsValid(e,x,y)){
+            if((*ivpn)->toMoveIsValid(e,x,y)){
                 Echec=true;
-                (*pn)->toString();
-
+                (*ivpn)->toString();
+                //cout << "ECHEC AVEC NOIR" << endl;
             }
 
-            pn++;
+            ivpn++;
         }
     }
     else{
-        while(pb != lesBlanches.end())
+        while(ivpb != lesPiecesBlanches.end())
         {
-            if((*pb)->toMoveIsValid(e,x,y)){
+            if((*ivpb)->toMoveIsValid(e,x,y)){
                 Echec=true;
-                (*pb)->toString();
-                cout << "TA RACE DE PUTE" << endl;
+                (*ivpb)->toString();
+                //cout << "ECHEC AVEC BLANC" << endl;
             }
 
-            pb++;
+            ivpb++;
         }
     }
     //Echec=p->toMoveIsValid(r->getX(), r->getY());

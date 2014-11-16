@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1416112852 source:d:\_repositories\chess\main.cpp
+1416175574 source:d:\_repositories\chess\main.cpp
 	<iostream>
 	<typeinfo>
 	"Pieces.h"
@@ -8,17 +8,17 @@
 
 1416088763 d:\_repositories\chess\include\pieces.h
 
-1416113251 source:d:\_repositories\chess\src\pieces.cpp
+1416177064 source:d:\_repositories\chess\src\pieces.cpp
 	<iostream>
 	"Pieces.h"
 	"Echiquier.h"
 
-1416011315 d:\_repositories\chess\include\joueur.h
+1416148204 d:\_repositories\chess\include\joueur.h
 	<string>
 	<vector>
 	"Pieces.h"
 
-1416113005 source:d:\_repositories\chess\src\joueur.cpp
+1416176801 source:d:\_repositories\chess\src\joueur.cpp
 	<iostream>
 	"Joueur.h"
 

@@ -28,7 +28,7 @@ Joueur::~Joueur()
 }
 
 vector<Piece*> Joueur::getPieces(){
-    return lesPieces;
+    return this->lesPieces;
 }
 
 void  Joueur::setPieces(vector<Piece*> vp){
@@ -40,7 +40,7 @@ void Joueur::setRoi(Roi &r){
 }
 
 Roi* Joueur::getRoi(){
-    return roi;
+    return this->roi;
 }
 
 void Joueur::mesPieces(){
@@ -127,25 +127,24 @@ JoueurNoir::JoueurNoir()//                                                      
     }
 
     Roi *r = new Roi(NOIR);
-    //Reine *R = new Reine(NOIR);
+    Reine *R = new Reine(NOIR);
     Tour *TourDROITE = new Tour(NOIR, DROITE);
-    //Fou *FouDROITE = new Fou(NOIR, DROITE);
+    Fou *FouDROITE = new Fou(NOIR, DROITE);
     Tour *TourGAUCHE = new Tour(NOIR, GAUCHE);
-    /*
+
     Fou *FouGAUCHE = new Fou(NOIR, GAUCHE);
     Cavalier *CavalierDROITE = new Cavalier(NOIR,DROITE);
     Cavalier *CavalierGAUCHE = new Cavalier(NOIR,GAUCHE);
-*/
+
     lesPieces->push_back(r);
-    //lesPieces->push_back(R);
+    lesPieces->push_back(R);
     lesPieces->push_back(TourDROITE);
     lesPieces->push_back(TourGAUCHE);
-/*
     lesPieces->push_back(FouDROITE);
     lesPieces->push_back(FouGAUCHE);
     lesPieces->push_back(CavalierDROITE);
     lesPieces->push_back(CavalierGAUCHE);
-*/
+
     this->setRoi(*r);
     this->setPieces(*lesPieces);
 }

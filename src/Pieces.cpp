@@ -76,7 +76,6 @@ bool Roi::toMoveIsValid(Echiquier *e,int x, int y){
     bool isValid = false;
     int xOrigin = this->getX();
     int yOrigin = this->getY();
-    int yRoque = (this-getColor())?8:1;
     //PETIT ROQUE
 
     if(xOrigin != x || yOrigin != y){
@@ -84,7 +83,13 @@ bool Roi::toMoveIsValid(Echiquier *e,int x, int y){
             for(int j = yOrigin-1; j <= yOrigin+1; j++){
                 //cout << " x : " << x << " y : " << y << endl;
                 if(i == x && j == y){
-                    isValid = Piece::toMoveIsValid(e,x, y);
+                    if(e->coordIsFree(x, y)){
+                        isValid = Piece::toMoveIsValid(e,x, y);
+                    }else{
+                        if(e->comparerPiece(*this,x,y)){
+                            isValid = Piece::toMoveIsValid(e,x, y);
+                        }
+                    }
                 }
             }
         }
@@ -179,7 +184,8 @@ void Roi::toString(){
 bool Reine::toMoveIsValid(Echiquier *e,int x, int y){
     bool isValid = false;
 
-    if(Tour::toMoveIsValid(e,x,y) || Fou::toMoveIsValid(e,x,y)){
+    if((Tour::toMoveIsValid(e,x,y)) ){
+       //||(Fou::toMoveIsValid(e,x,y))){
         isValid = e->comparerPiece(*this, x, y);
     }
 
@@ -204,56 +210,102 @@ void Reine::toString(){
 
 //FOU
 bool Fou::toMoveIsValid(Echiquier *e,int x, int y){
-    bool isValid = false;
-    int xOrigin = this->getX();
-    int yOrigin = this->getY();
+    bool isValid = true;
+    int xOrigin = getX();
+    int yOrigin = getY();
+    int i = 0;
 
     //On a besoin que du x car les diagonales representent une fonction linéaire tel que y = x,
-    if(xOrigin != x && yOrigin != y){
-        // Calcul des diagonales
-        for(int i = 0; i<8; i++){
-            if(x == xOrigin+i && y == yOrigin+i){
-                if(!(e->coordIsFree(xOrigin+1, yOrigin+1))){
-                    if(x == xOrigin+1 && y == yOrigin+1){
-                        isValid = Piece::toMoveIsValid(e,x, y);
+    if(xOrigin != x || yOrigin != y){
+        // Calcul des lignes et colonnes
+        if(yOrigin > y && xOrigin > x){
+            int X = xOrigin-1;
+            for(int Y = yOrigin-1; Y>=y; Y--){
+                //cout << i << " A X= " << X << " Y = " << Y << endl;
+                if(isValid){
+                    if((e->coordIsFree(X, Y))){
+                        isValid = Piece::toMoveIsValid(e,X, Y);
+                    }
+                    else if(Y == y){
+                        if(e->comparerPiece(*this, x, y)){
+                            isValid = Piece::toMoveIsValid(e,X, Y);
+                        }
+                    }else{
+                        isValid = false;
                     }
                 }
-                else{
-                    isValid = Piece::toMoveIsValid(e,x, y);
-                }
-            }
-            if(x == xOrigin+i && y == yOrigin-i){
-                if(!(e->coordIsFree(xOrigin+1, yOrigin-1))){
-                    if(x == xOrigin+1 && y == yOrigin-1){
-                        isValid = Piece::toMoveIsValid(e,x, y);
-                    }
-                }
-                else{
-                    isValid = Piece::toMoveIsValid(e,x, y);
-                }
-            }
-            if(x == xOrigin-i && y == yOrigin+i){
-                if(!(e->coordIsFree(xOrigin-1, yOrigin+1))){
-                    if(x == xOrigin+1 && y == yOrigin-1){
-                        isValid = Piece::toMoveIsValid(e,x, y);
-                    }
-                }
-                else{
-                    isValid = Piece::toMoveIsValid(e,x, y);
-                }
-            }
-            if(x == xOrigin-i && y == yOrigin-i){
-                if(!(e->coordIsFree(xOrigin-1, yOrigin+1))){
-                    if(x == xOrigin+1 && y == yOrigin-1){
-                        isValid = Piece::toMoveIsValid(e,x, y);
-                    }
-                }
-                else{
-                    isValid = Piece::toMoveIsValid(e,x, y);
-                }
+                X--;
             }
         }
+
+        else if(yOrigin < y && xOrigin > x){
+            int X = xOrigin-1;
+            for(int Y = yOrigin+1; Y<=y; Y++){
+                //cout << i << " B  X= " << X << " Y = " << Y << endl;
+                //i++;
+                if(isValid){
+                    if((e->coordIsFree(X, Y))){
+                        //cout << "FOU is free" << i << endl;
+                        isValid = Piece::toMoveIsValid(e,X, Y);
+                    }
+                    else if(Y == y){
+                        //cout << "FOU if x==y" << endl;
+                        if(e->comparerPiece(*this, x, y)){
+                            isValid = Piece::toMoveIsValid(e,X, Y);
+                        }
+                    }else{
+                        //cout << "else X= " << X << " Y = " << Y << endl;
+                        isValid = false;
+                    }
+                }
+                X--;
+            }
+        }
+        else if(yOrigin > y && xOrigin < x){
+            int Y = yOrigin-1;
+            for(int X = xOrigin+1; X>=x; X++){
+                //cout << i << " C  GROSSE PUTE X= " << X << " Y = " << Y << endl;
+                if(isValid){
+                    if((e->coordIsFree(X, Y))){
+                        isValid = Piece::toMoveIsValid(e,X, Y);
+                    }
+                    else if(X == x){
+                        if(e->comparerPiece(*this, x, y)){
+                            isValid = Piece::toMoveIsValid(e,X, Y);
+                        }
+                    }else{
+                        isValid = false;
+                    }
+                }
+                Y--;
+            }
+        }
+        else if(yOrigin < y && xOrigin < x){
+            int Y = yOrigin+1;
+            for(int X = xOrigin+1; X<=x; X++){
+                //cout << i << " D X= " << X << " Y = " << Y << endl;
+                if(isValid){
+                    if((e->coordIsFree(X, Y))){
+                        isValid = Piece::toMoveIsValid(e,X, Y);
+                    }
+                    else if(X == x){
+                        if(e->comparerPiece(*this, x, y)){
+                            isValid = Piece::toMoveIsValid(e,X, Y);
+                        }
+                    }else{
+                        isValid = false;
+                    }
+                }
+                Y++;
+            }
+        }
+        else{
+            isValid = false;
+        }
+    }else{
+        isValid = false;
     }
+
     return isValid;
 }
 
@@ -339,14 +391,14 @@ bool Tour::toMoveIsValid(Echiquier *e, int x, int y){
     if(xOrigin != x || yOrigin != y){
         // Calcul des lignes et colonnes
         if(yOrigin > y && x == xOrigin){
-            for(yOrigin; yOrigin>=y; yOrigin--){
+            for(int Y = yOrigin-1; Y>=y; Y--){
               if(isValid){
-                    if((e->coordIsFree(xOrigin, yOrigin))){
-                        isValid = Piece::toMoveIsValid(e,xOrigin, yOrigin);
+                    if((e->coordIsFree(xOrigin, Y))){
+                        isValid = Piece::toMoveIsValid(e,xOrigin, Y);
                     }
-                    else if(yOrigin == y){
+                    else if(Y == y){
                         if(e->comparerPiece(*this, x, y)){
-                            isValid = Piece::toMoveIsValid(e,xOrigin, yOrigin);
+                            isValid = Piece::toMoveIsValid(e,xOrigin, Y);
                         }
                     }else{
                         isValid = false;
@@ -356,17 +408,17 @@ bool Tour::toMoveIsValid(Echiquier *e, int x, int y){
         }
         else if(yOrigin < y && x == xOrigin){
             int i = 0;
-            for(yOrigin; yOrigin<=y; yOrigin++){
+            for(int Y = yOrigin+1; Y<=y; Y++){
                 if(isValid){
                     i++;
-                    if((e->coordIsFree(xOrigin, yOrigin))){
-                         cout << "ta mere " << i << endl;
-                        isValid = Piece::toMoveIsValid(e,xOrigin, yOrigin);
+                    if((e->coordIsFree(xOrigin, Y))){
+                         cout << "TOUR is free" << i << endl;
+                        isValid = Piece::toMoveIsValid(e,xOrigin, Y);
                     }
-                    else if(yOrigin == y){
-                        cout << "ta race " << endl;
+                    else if(Y == y){
+                        cout << "TOUR x==y" << endl;
                         if(e->comparerPiece(*this, x, y)){
-                            isValid = Piece::toMoveIsValid(e,xOrigin, yOrigin);
+                            isValid = Piece::toMoveIsValid(e,xOrigin, Y);
                         }
                     }else{
                         isValid = false;
@@ -375,14 +427,14 @@ bool Tour::toMoveIsValid(Echiquier *e, int x, int y){
             }
         }
         else if(xOrigin > x && y == yOrigin){
-            for(xOrigin; xOrigin>=x; xOrigin--){
+            for(int X = xOrigin-1; X>=x; X--){
                 if(isValid){
-                    if((e->coordIsFree(xOrigin, yOrigin))){
-                        isValid = Piece::toMoveIsValid(e,xOrigin, yOrigin);
+                    if((e->coordIsFree(X, yOrigin))){
+                        isValid = Piece::toMoveIsValid(e,X, yOrigin);
                     }
-                    else if(xOrigin == x){
+                    else if(X == x){
                         if(e->comparerPiece(*this, x, y)){
-                            isValid = Piece::toMoveIsValid(e,xOrigin, yOrigin);
+                            isValid = Piece::toMoveIsValid(e,X, yOrigin);
                         }
                     }else{
                         isValid = false;
@@ -391,22 +443,23 @@ bool Tour::toMoveIsValid(Echiquier *e, int x, int y){
             }
         }
         else if(xOrigin < x && y == yOrigin){
-            for(xOrigin; xOrigin<=x; xOrigin++){
-                if(isValid){
-                    if((e->coordIsFree(xOrigin, yOrigin))){
-                        isValid = Piece::toMoveIsValid(e,xOrigin, yOrigin);
+            for(int X = xOrigin+1; X<=x; X++){
+                    if(isValid){
+                    if((e->coordIsFree(X, yOrigin))){
+                        isValid = Piece::toMoveIsValid(e,X, yOrigin);
                     }
-                    else if(xOrigin == x){
+                    else if(X == x){
                         if(e->comparerPiece(*this, x, y)){
-                            isValid = Piece::toMoveIsValid(e,xOrigin, yOrigin);
+                            isValid = Piece::toMoveIsValid(e,X, yOrigin);
                         }
                     }else{
                         isValid = false;
                     }
                 }
             }
-        }else{
-        isValid = false;
+        }
+        else{
+            isValid = false;
         }
     }else{
         isValid = false;
