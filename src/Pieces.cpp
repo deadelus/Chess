@@ -177,7 +177,8 @@ char Roi::myCode(){
 }
 
 void Roi::toString(){
-    cout << "Ceci est un Roi en x: " << this->getX() << " y: " << this->getY() << endl;
+    char color = (getColor())?'B':'N';
+    cout << "Ceci est un Roi "<< color << " en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 //REINE
@@ -205,7 +206,8 @@ char Reine::myCode(){
 }
 
 void Reine::toString(){
-    cout << "Ceci est une Reine en x: " << this->getX() << " y: " << this->getY() << endl;
+    char color = (getColor())?'B':'N';
+    cout << "Ceci est une Reine "<< color << " en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 //FOU
@@ -221,38 +223,35 @@ bool Fou::toMoveIsValid(Echiquier *e,int x, int y){
         if(yOrigin > y && xOrigin > x){
             int X = xOrigin-1;
             for(int Y = yOrigin-1; Y>=y; Y--){
-                //cout << i << " A X= " << X << " Y = " << Y << endl;
-                if(isValid){
+                if(isValid && Y<=8 && X<=8 && Y>=1 && X>=1){
+                cout << i << " A X= " << X << " Y = " << Y << endl;
                     if((e->coordIsFree(X, Y))){
+                        cout << i << " LIBRE A X= " << X << " Y = " << Y << endl;
                         isValid = Piece::toMoveIsValid(e,X, Y);
                     }
-                    else if(Y == y){
-                        if(e->comparerPiece(*this, x, y)){
-                            isValid = Piece::toMoveIsValid(e,X, Y);
-                        }
+                    else if(e->comparerPiece(*this, X, Y)){
+                        cout << i << " DIFERENTE A X= " << X << " Y = " << Y << endl;
+                        isValid = Piece::toMoveIsValid(e,X, Y);
                     }else{
+                        cout << i << " AUCUN A X= " << X << " Y = " << Y << endl;
                         isValid = false;
                     }
                 }
                 X--;
             }
         }
-
         else if(yOrigin < y && xOrigin > x){
             int X = xOrigin-1;
             for(int Y = yOrigin+1; Y<=y; Y++){
-                //cout << i << " B  X= " << X << " Y = " << Y << endl;
                 //i++;
-                if(isValid){
+                if(isValid && Y<=8 && X<=8 && Y>=1 && X>=1){
+                cout << i << " B  X= " << X << " Y = " << Y << endl;
                     if((e->coordIsFree(X, Y))){
                         //cout << "FOU is free" << i << endl;
                         isValid = Piece::toMoveIsValid(e,X, Y);
                     }
-                    else if(Y == y){
-                        //cout << "FOU if x==y" << endl;
-                        if(e->comparerPiece(*this, x, y)){
+                    else if(e->comparerPiece(*this, X, Y)){
                             isValid = Piece::toMoveIsValid(e,X, Y);
-                        }
                     }else{
                         //cout << "else X= " << X << " Y = " << Y << endl;
                         isValid = false;
@@ -264,15 +263,13 @@ bool Fou::toMoveIsValid(Echiquier *e,int x, int y){
         else if(yOrigin > y && xOrigin < x){
             int Y = yOrigin-1;
             for(int X = xOrigin+1; X>=x; X++){
-                //cout << i << " C  GROSSE PUTE X= " << X << " Y = " << Y << endl;
-                if(isValid){
+                if(isValid && Y<=8 && X<=8 && Y>=1 && X>=1){
+                cout << i << " C  GROSSE PUTE X= " << X << " Y = " << Y << endl;
                     if((e->coordIsFree(X, Y))){
                         isValid = Piece::toMoveIsValid(e,X, Y);
                     }
-                    else if(X == x){
-                        if(e->comparerPiece(*this, x, y)){
+                    else if(e->comparerPiece(*this, X, Y)){
                             isValid = Piece::toMoveIsValid(e,X, Y);
-                        }
                     }else{
                         isValid = false;
                     }
@@ -283,15 +280,10 @@ bool Fou::toMoveIsValid(Echiquier *e,int x, int y){
         else if(yOrigin < y && xOrigin < x){
             int Y = yOrigin+1;
             for(int X = xOrigin+1; X<=x; X++){
-                //cout << i << " D X= " << X << " Y = " << Y << endl;
-                if(isValid){
+                if(isValid && Y<=8 && X<=8 && Y>=1 && X>=1){
+                cout << i << " D X= " << X << " Y = " << Y << endl;
                     if((e->coordIsFree(X, Y))){
                         isValid = Piece::toMoveIsValid(e,X, Y);
-                    }
-                    else if(X == x){
-                        if(e->comparerPiece(*this, x, y)){
-                            isValid = Piece::toMoveIsValid(e,X, Y);
-                        }
                     }else{
                         isValid = false;
                     }
@@ -322,7 +314,8 @@ char Fou::myCode(){
 }
 
 void Fou::toString(){
-    cout << "Ceci est un Fou en x: " << this->getX() << " y: " << this->getY() << endl;
+    char color = (getColor())?'B':'N';
+    cout << "Ceci est un Fou "<< color << " en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 
@@ -379,7 +372,8 @@ char Cavalier::myCode(){
 }
 
 void Cavalier::toString(){
-    cout << "Ceci est un Cavalier en x: " << this->getX() << " y: " << this->getY() << endl;
+    char color = (getColor())?'B':'N';
+    cout << "Ceci est un Cavalier "<< color << " en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 //TOUR
@@ -396,10 +390,8 @@ bool Tour::toMoveIsValid(Echiquier *e, int x, int y){
                     if((e->coordIsFree(xOrigin, Y))){
                         isValid = Piece::toMoveIsValid(e,xOrigin, Y);
                     }
-                    else if(Y == y){
-                        if(e->comparerPiece(*this, x, y)){
+                    else if(e->comparerPiece(*this, xOrigin, Y)){
                             isValid = Piece::toMoveIsValid(e,xOrigin, Y);
-                        }
                     }else{
                         isValid = false;
                     }
@@ -415,11 +407,11 @@ bool Tour::toMoveIsValid(Echiquier *e, int x, int y){
                          cout << "TOUR is free" << i << endl;
                         isValid = Piece::toMoveIsValid(e,xOrigin, Y);
                     }
-                    else if(Y == y){
+                    else if(e->comparerPiece(*this, xOrigin, Y)){
                         cout << "TOUR x==y" << endl;
-                        if(e->comparerPiece(*this, x, y)){
+
                             isValid = Piece::toMoveIsValid(e,xOrigin, Y);
-                        }
+
                     }else{
                         isValid = false;
                     }
@@ -432,11 +424,10 @@ bool Tour::toMoveIsValid(Echiquier *e, int x, int y){
                     if((e->coordIsFree(X, yOrigin))){
                         isValid = Piece::toMoveIsValid(e,X, yOrigin);
                     }
-                    else if(X == x){
-                        if(e->comparerPiece(*this, x, y)){
-                            isValid = Piece::toMoveIsValid(e,X, yOrigin);
-                        }
-                    }else{
+                    else if(e->comparerPiece(*this, X, yOrigin)){
+                        isValid = Piece::toMoveIsValid(e,X, yOrigin);
+                    }
+                    else{
                         isValid = false;
                     }
                 }
@@ -448,11 +439,10 @@ bool Tour::toMoveIsValid(Echiquier *e, int x, int y){
                     if((e->coordIsFree(X, yOrigin))){
                         isValid = Piece::toMoveIsValid(e,X, yOrigin);
                     }
-                    else if(X == x){
-                        if(e->comparerPiece(*this, x, y)){
+                    else if(e->comparerPiece(*this, X, yOrigin)){
                             isValid = Piece::toMoveIsValid(e,X, yOrigin);
                         }
-                    }else{
+                    else{
                         isValid = false;
                     }
                 }
@@ -480,7 +470,8 @@ char Tour::myCode(){
 }
 
 void Tour::toString(){
-    cout << "Ceci est une Tour en x: " << this->getX() << " y: " << this->getY() << endl;
+    char color = (getColor())?'B':'N';
+    cout << "Ceci est une Tour "<< color << " en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 //PION
@@ -553,7 +544,8 @@ char Pion::myCode(){
 }
 
 void Pion::toString(){
-    cout << "Ceci est un Pion en x: " << this->getX() << " y: " << this->getY() << endl;
+    char color = (getColor())?'B':'N';
+    cout << "Ceci est un Pion " << color << "  en x: " << this->getX() << " y: " << this->getY() << endl;
 }
 
 //ctor

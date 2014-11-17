@@ -99,7 +99,7 @@ int main()
         cout << dynamic_cast<Roi*>(p) << endl;
 */
         while(!saisiOk && !gameOver){
-
+        if(tour > 1){
             if(isEchec(*r, r->getX(), r->getY())){
                 cout << endl << " ECHEC ! DEPLACEZ LE ROI !" << endl;
                 while(!saisiOk){
@@ -133,6 +133,7 @@ int main()
                                     saisiRoiOk = false;
                             }
                         }
+                    }
                     }
                 }
                 else{
@@ -250,17 +251,19 @@ bool isEchec(Roi &r, int x, int y){
     bool color = r.getColor();
     cout << &r << endl;
     bool Echec = false;
+    bool stop = false;
 
     vector<Piece*>::iterator ivpb = lesPiecesBlanches.begin();
     vector<Piece*>::iterator ivpn = lesPiecesNoires.begin();
-
+    cout << endl << endl <<  " ---- ECHEC ? ----" << endl << endl;
     if(color){
-        while(ivpn != lesPiecesNoires.end())
+        while(ivpn != lesPiecesNoires.end() && !stop)
         {
             if((*ivpn)->toMoveIsValid(e,x,y)){
                 Echec=true;
                 (*ivpn)->toString();
-                //cout << "ECHEC AVEC NOIR" << endl;
+                cout << "ECHEC AVEC NOIR" << endl;
+                stop = true;
             }
 
             ivpn++;
@@ -272,7 +275,7 @@ bool isEchec(Roi &r, int x, int y){
             if((*ivpb)->toMoveIsValid(e,x,y)){
                 Echec=true;
                 (*ivpb)->toString();
-                //cout << "ECHEC AVEC BLANC" << endl;
+                cout << "ECHEC AVEC BLANC" << endl;
             }
 
             ivpb++;
