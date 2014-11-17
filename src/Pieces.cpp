@@ -212,13 +212,14 @@ void Reine::toString(){
 
 //FOU
 bool Fou::toMoveIsValid(Echiquier *e,int x, int y){
-    bool isValid = true;
+    bool isValid = false;
     int xOrigin = getX();
     int yOrigin = getY();
     int i = 0;
 
     //On a besoin que du x car les diagonales representent une fonction linéaire tel que y = x,
-    if(xOrigin != x || yOrigin != y){
+    if(xOrigin != x && yOrigin != y){
+
         // Calcul des lignes et colonnes
         if(yOrigin > y && xOrigin > x){
             int X = xOrigin-1;
