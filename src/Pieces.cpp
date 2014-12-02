@@ -224,18 +224,18 @@ bool Fou::toMoveIsValid(Echiquier *e,int x, int y){
         if(yOrigin > y && xOrigin > x){
             int X = xOrigin-1;
             for(int Y = yOrigin-1; Y>=y; Y--){
-                if(isValid && Y<=8 && X<=8 && Y>=1 && X>=1){
-                cout << i << " A X= " << X << " Y = " << Y << endl;
+                if(Y<=8 && X<=8 && Y>=1 && X>=1){
+                    cout << i << " A X= " << X << " Y = " << Y << endl;
                     if((e->coordIsFree(X, Y))){
                         cout << i << " LIBRE A X= " << X << " Y = " << Y << endl;
                         isValid = Piece::toMoveIsValid(e,X, Y);
                     }
-                    else if(e->comparerPiece(*this, X, Y)){
+                    else if(e->comparerPiece(*this, X, Y) && x == X && Y == y){
                         cout << i << " DIFERENTE A X= " << X << " Y = " << Y << endl;
-                        isValid = Piece::toMoveIsValid(e,X, Y);
+                        return Piece::toMoveIsValid(e,X, Y);
                     }else{
                         cout << i << " AUCUN A X= " << X << " Y = " << Y << endl;
-                        isValid = false;
+                        return false;
                     }
                 }
                 X--;
@@ -245,17 +245,17 @@ bool Fou::toMoveIsValid(Echiquier *e,int x, int y){
             int X = xOrigin-1;
             for(int Y = yOrigin+1; Y<=y; Y++){
                 //i++;
-                if(isValid && Y<=8 && X<=8 && Y>=1 && X>=1){
+                if(Y<=8 && X<=8 && Y>=1 && X>=1){
                 cout << i << " B  X= " << X << " Y = " << Y << endl;
                     if((e->coordIsFree(X, Y))){
                         //cout << "FOU is free" << i << endl;
                         isValid = Piece::toMoveIsValid(e,X, Y);
                     }
-                    else if(e->comparerPiece(*this, X, Y)){
-                            isValid = Piece::toMoveIsValid(e,X, Y);
+                    else if(e->comparerPiece(*this, X, Y) && x == X && Y == y){
+                        return Piece::toMoveIsValid(e,X, Y);
                     }else{
                         //cout << "else X= " << X << " Y = " << Y << endl;
-                        isValid = false;
+                        return false;
                     }
                 }
                 X--;
@@ -264,15 +264,15 @@ bool Fou::toMoveIsValid(Echiquier *e,int x, int y){
         else if(yOrigin > y && xOrigin < x){
             int Y = yOrigin-1;
             for(int X = xOrigin+1; X>=x; X++){
-                if(isValid && Y<=8 && X<=8 && Y>=1 && X>=1){
-                cout << i << " C  GROSSE PUTE X= " << X << " Y = " << Y << endl;
+                if(Y<=8 && X<=8 && Y>=1 && X>=1){
+                cout << i << " C  X= " << X << " Y = " << Y << endl;
                     if((e->coordIsFree(X, Y))){
                         isValid = Piece::toMoveIsValid(e,X, Y);
                     }
-                    else if(e->comparerPiece(*this, X, Y)){
-                            isValid = Piece::toMoveIsValid(e,X, Y);
+                    else if(e->comparerPiece(*this, X, Y) && x == X && Y == y){
+                        return Piece::toMoveIsValid(e,X, Y);
                     }else{
-                        isValid = false;
+                        return false;
                     }
                 }
                 Y--;
@@ -281,12 +281,15 @@ bool Fou::toMoveIsValid(Echiquier *e,int x, int y){
         else if(yOrigin < y && xOrigin < x){
             int Y = yOrigin+1;
             for(int X = xOrigin+1; X<=x; X++){
-                if(isValid && Y<=8 && X<=8 && Y>=1 && X>=1){
+                if(Y<=8 && X<=8 && Y>=1 && X>=1){
                 cout << i << " D X= " << X << " Y = " << Y << endl;
                     if((e->coordIsFree(X, Y))){
                         isValid = Piece::toMoveIsValid(e,X, Y);
+                    }
+                    else if(e->comparerPiece(*this, X, Y) && x == X && Y == y){
+                        return Piece::toMoveIsValid(e,X, Y);
                     }else{
-                        isValid = false;
+                        return false;
                     }
                 }
                 Y++;

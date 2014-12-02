@@ -72,11 +72,11 @@ int main()
             jb->mesPieces();
             r = jb->getRoi();
             r->toString();
-            /*
+
             if(eMat(*r)){
                 gameOver = true;
                 cout << endl  <<   jn->getNom() << " VOUS A MIS ECHEC ET MAT " << endl << endl;
-            }*/
+            }
         }
         else{
             cout << endl << " TOUR N. " << tour << " " <<   jn->getNom() << endl << endl;
@@ -84,35 +84,21 @@ int main()
             jn->mesPieces();
             r = jn->getRoi();
             r->toString();
-            /*
+
             if(eMat(*r)){
                 gameOver = true;
                 cout << endl  <<   jb->getNom() << " VOUS A MIS ECHEC ET MAT " << endl << endl;
             }
-            */
+
         }
 
-/*
-        p = lesPieces[8];
-        r = dynamic_cast<Roi*>(p);
-
-        cout << dynamic_cast<Roi*>(p) << endl;
-*/
         while(!saisiOk && !gameOver){
-        if(tour > 1){
             if(isEchec(*r, r->getX(), r->getY())){
                 cout << endl << " ECHEC ! DEPLACEZ LE ROI !" << endl;
                 while(!saisiOk){
                     if(!saisiRoiOk){
                         cout << endl << " ENTRER LE N. DE LA PIECE : " << endl;
                         cin >> numPiece;
-                        /*p = (*lesPieces)[numPiece-1];
-                        r = dynamic_cast<Roi*>(p);
-                        if(r != 0){
-                            saisiRoiOk = true;
-                        }
-                    }
-                    else{*/
                         cout << endl << " ENTRER LA COLONNE : " << endl;
                         cin >> x;
                         cout << endl << " ENTRER LA LIGNE: " << endl;
@@ -133,7 +119,6 @@ int main()
                                     saisiRoiOk = false;
                             }
                         }
-                    }
                     }
                 }
                 else{
@@ -191,18 +176,14 @@ int main()
                     }
                 }
             }
-
         }
-
     saisiOk = false;
-    //*r = NULL;
     if(tour==10)
         gameOver = true;
     tour++;
 
     }
-    /* FIN DE LA MAIN */
-    //cout << endl << numPiece;
+
     return 0;
 }
 
@@ -240,11 +221,11 @@ bool eMat(Roi &r){
 
     for(int i=x-1; i<x+1; i++){
         for(int j=y-1; j<y+1; j++){
-            isFree=r.toMoveIsValid(e,i,j);
             isFree=isEchec(r,x,y);
+            isFree=r.toMoveIsValid(e,i,j);
         }
     }
-    return false;
+    return !isFree;
 }
 
 bool isEchec(Roi &r, int x, int y){
@@ -270,12 +251,13 @@ bool isEchec(Roi &r, int x, int y){
         }
     }
     else{
-        while(ivpb != lesPiecesBlanches.end())
+        while(ivpb != lesPiecesBlanches.end() && !stop)
         {
             if((*ivpb)->toMoveIsValid(e,x,y)){
                 Echec=true;
                 (*ivpb)->toString();
                 cout << "ECHEC AVEC BLANC" << endl;
+                stop = true;
             }
 
             ivpb++;
