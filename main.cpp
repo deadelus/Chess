@@ -221,7 +221,7 @@ bool eMat(Roi &r){
 
     for(int i=x-1; i<x+1; i++){
         for(int j=y-1; j<y+1; j++){
-            if(isEchec(r,x,y) && r.toMoveIsValid(e,i,j)){
+            if(isEchec(r,x,y) && !r.toMoveIsValid(e,i,j)){
                 isFree = true;
             }else{
                 return false;
